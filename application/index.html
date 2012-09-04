@@ -68,7 +68,7 @@
 				Genetski algoritmi
 			</h3>
 			<p>
-				Genetski algoritimi so del evolucijskega računanja, ki za iskanje rešitev povzemajo ideje od v naravi skozi evolucijo dokazano uspešnih načinov delovanja in preživetja. Z operacijami križanja, mutacije, dedovanja in izbire skozi generacijo tvorijo nove, boljše <strong>osebke</strong>.
+				Genetski algoritimi so del evolucijskega računanja, ki za iskanje rešitev povzemajo ideje od v naravi skozi evolucijo dokazano uspešnih načinov delovanja in preživetja. Z operacijami križanja, mutacije, dedovanja in izbire skozi generacije tvorijo nove, boljše <strong>osebke</strong>.
 			</p>
 			<p>
 				Problem predstavimo v taki obliki, da mu lahko določimo kvaliteto. Za optimizacijo prometa smo osebek predstavili kot zaporedje parov časov rdečih in zelenih luči na semaforjih. Enote so v sekundah:
@@ -80,10 +80,10 @@
 				</p>
 			</blockquote>
 			<p>
-				Na začetku so osebki generirani naključno (<strong>začetna populacija</strong>), nato pa jih z genetskimi operatorji spreminjamo. V vsaki generaciji z različnimi <strong>metodami izbire</strong> izberemo osebke za razmnoževanje. Osebke izberemo glede na <strong>kvaliteto</strong>.
+				Na začetku so osebki generirani naključno (<strong>začetna populacija</strong>), nato pa jih z genetskimi operatorji spreminjamo. V vsaki generaciji z različnimi <strong>metodami izbire</strong> izberemo osebke za razmnoževanje. Osebke izberemo glede na <strong>kvaliteto</strong>. 
 			</p>
 			<p>
-				Funkcija, ki objektivno oceni kvaliteto osebka imenujemo <strong>fitness funkcija</strong>. Za naš problem je fitness funkcija definirana kot <em>skupni čas potovanja vseh vozil od začetka do konca</em>. Čas potovanja izmerimo s simulacijo animacije. Simulacija poteka enako kot animacija, le da ničesar ne izrišemo.
+				Funkcija, ki objektivno oceni kvaliteto osebka imenujemo <strong>fitness funkcija</strong>. Za naš problem je fitness funkcija definirana kot <em>skupni čas potovanja vseh vozil od začetka do konca</em>. Čas potovanja izmerimo s simulacijo animacije. Simulacija poteka enako kot animacija, le da ničesar ne izrišemo. Manjši je čas potovanja, bolje je ocenjen osebek.
 			</p>
 			<p>
 				Nad najboljšimi osebki (<strong>elita</strong>) nato izvedemo križanje in mutacijo, saj želimo dober genetski material ohraniti. Križanje ustvari dva <strong>potomca</strong>, ki nastopata v novi populaciji.
@@ -106,7 +106,7 @@
 				</div>
 			</p>
 			<p>
-				Mutacija pomeni, da na naključno izbranem mestu zamenjamo genetski zapis. Brez mutacij bi krizanje lahko izmenjevalo samo genetski material v začetni slučajno generirani populaciji. Mutacija doda potencialno novo informacijo. Mutacija ne sme biti prevelika, saj je potem pokvari preveč potencialno koristnih genov v osebkih.
+				Mutacija pomeni, da na naključno izbranem mestu zamenjamo genetski zapis. Brez mutacij bi križanje lahko izmenjevalo samo genetski material v začetni slučajno generirani populaciji. Mutacija doda potencialno novo informacijo. Mutacija ne sme biti prevelika, saj je potem pokvari preveč potencialno koristnih genov v osebkih.
 			</p>
 			<p>
 				Delež križanja in mutacije določimo vnaprej. V deležu mutacije in križanja smo že določili delež <strong>elitizma</strong>. Določen je z:
@@ -117,7 +117,7 @@
 				</p>
 			</blockquote>
 			<p>
-				Elitizem pomeni neposreden prenos določenega števila najboljših osebkov v novo populacijo. Dobra stran elitizma je, da imamo v vsaki generaciji najboljše osebek in zaradi variance pri izbiri ne izgubljamo dobrega genetskega materiala.
+				Elitizem pomeni neposreden prenos določenega števila najboljših osebkov v novo populacijo. Dobra stran elitizma je, da imamo v vsaki generaciji najboljše osebke in zaradi variance pri izbiri ne izgubljamo dobrega genetskega materiala.
 			</p>
 			<h3>
 				Vizualizacija
@@ -162,7 +162,17 @@
 			<p>
 				Večji je maksimalen čas posamezne luči, večji je prostor možnih rešitev, zato je potrebno temu ustrezno povečati velikost populacije. S tem omogočimo algoritmu, da bo preiskal dovolj velik prostor možnih rešitev, vendar pa moramo zato povečati število generacij, saj bo algoritem potreboval dlje časa, da najde najboljšo rešitev. Na hitrost izvajanja genetskega algoritma vpliva tudi število vozil.
 			</p>
+			<p>
+				Genetski algoritem za vsako generacijo vrne le najboljši osebek iz celotne populacije. Včasih je en osebek najboljši čez več generacij (ravna črta na grafu).
+			</p>
+			<p>
+				Rešitve genetskega algoritma so prikazane padajoče, od najslabše (večja vrednost) do najboljše (slabša vrednost). Enote so v sekundah. Uporabnik mora izbrati vsaj eno rešitev za animacijo.
+			</p>
+			<ul class="pager">
+				<li class="next"><a href="GA.html" >Vizualizacija &rarr;</a>
+			</ul>
 		</div>
+
 	</div>
 	<script type="text/javascript">
 		function get_intersections()
