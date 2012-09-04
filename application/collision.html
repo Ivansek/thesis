@@ -1,0 +1,115 @@
+<html>
+<head>
+</head>
+<body>
+	<canvas id="canvas" style="border: 1px solid #cccccc;" width="800" height="800"></canvas>
+	<script type="text/javascript">
+		var ctx = document.getElementById("canvas").getContext("2d");
+		var rect1 = {
+			x : 100,
+			y : 10,
+			w : 100,
+			h : 20,
+			dir : "left",
+			name : "rect1"
+		}
+		
+		var rect2 = {
+			x : 50,
+			y : 200,
+			w : 20,
+			h : 100,
+			dir : "up",
+			name : "rect2"
+		}
+		
+		var rect3 = {
+			x : rect1.x+rect1.w+20,
+			y : 20,
+			w : 100,
+			h : 20,
+			dir: "left",
+			name : "rect3"
+		}
+		
+		function collide(r1, r2)
+		{
+			var r1_c = {
+				x : r1.x+(r1.w/2),
+				y : r1.y+(r1.h/2)
+			}
+			
+			var r2_c = {
+				x : r2.x + (r2.w/2),
+				y : r2.y + (r2.h/2)
+			}
+			
+			var n = {
+				x : r2.x - r1.x,
+				y : r2.y - r1.y
+			}
+			
+			if( r1.x + r1.w > r2.x && r1.x < r2.x + r2.w && r1.y + r1.h > r2.y && r1.y < r2.y + r2.h )
+			{
+				if( n.x > 0 )
+				{
+					console.log(r2.name+" is to the right");
+				}
+				else if( n.x < 0 )
+				{
+					console.log(r2.name+" is to the left");
+				}
+				else
+				{
+					console.log(r2.name+" is at same position along the x-axis")
+				}
+				
+				if( n.y > 0)
+				{
+					console.log(r2.name+" is below")
+				}
+				else if( n.y < 0)
+				{
+					console.log(r2.name+" is above")
+				}
+				else
+				{
+					console.log(r2.name+" is at same position along the y-axis")
+				}
+				
+				return true;
+			}
+			return false;
+			/*else if( r1.dir == "up")
+			{
+				return r1.y+r1.h <= r2.y && r1.x+r1.w >= r2.x && r1.x <= r2.x; 
+			}*/
+		}
+		var i = setInterval(function(){
+			ctx.clearRect(0, 0, 800, 800);
+			ctx.strokeStyle = "black"
+			ctx.strokeRect(rect1.x, rect1.y, rect1.w, rect1.h)
+			ctx.strokeRect(rect2.x, rect2.y, rect2.w, rect2.h)
+			ctx.strokeRect(rect3.x, rect3.y, rect3.w, rect3.h)
+			ctx.fillRect(rect1.x+(rect1.w/2)-1, rect1.y+(rect1.h/2)-1, 2,2)
+			ctx.fillRect(rect2.x+(rect2.w/2)-1, rect2.y+(rect2.h/2)-1, 2,2)
+			ctx.fillRect(rect3.x+(rect3.w/2)-1, rect3.y+(rect3.h/2)-1, 2,2)
+
+			rect1.x--;
+			rect2.y--;
+			rect3.x-=2;
+			
+				if( collide(rect1, rect3) )
+				{
+					console.log("rect1 collide with rect3")
+				}
+				if( collide(rect3, rect1) )
+				{
+					clearInterval(i);
+					console.log("rect3 collide with rect1");
+				}
+
+		}, 50);
+	</script>
+</body>
+</html>

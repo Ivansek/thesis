@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script type="level.js"></script>
+	</head>
+<body>
+	<canvas id="canvas" width="1200" height="50" style="border: 1px solid #cccccc;"></canvas>
+	<script type="text/javascript">
+	
+		function draw_nodes(ctx)
+		{
+			for( var i in nodes )
+			{
+				var node = nodes[i];
+				ctx.arc(node.x, node.y, 2, 0, 2 * Math.PI, false);
+				ctx.fillStyle = "#000000";
+				ctx.fill();
+			}
+
+		}
+		
+		function draw_semaphores(ctx)
+		{
+			for( var i in nodes)
+			{	
+				if( running_time%1000 == 0)
+				{
+					if( nodes[i].loop == nodes[i][nodes[i].txt.toLowerCase()] )
+					{
+						nodes[i].loop = 0;
+						nodes[i].txt = nodes[i].txt == "R" ? "G" : "R";
+						
+					}
+					
+					nodes[i].loop++;
+				}
+				ctx.font = "11px Arial";
+				ctx.fillStyle = "#000000";
+				ctx.fillText(nodes[i].txt, nodes[i].x-3, nodes[i].y+15);
+			}
+		}
+		
+		function draw_car(ctx)
+		{
+			var image = new Image();
+			image.src = "images/car.png";
+			ctx.drawImage(image, x-image.width, y-image.height/2);
+		}
+		
+		var has_green_light = true;
+		function update_car(ctx)
+		{
+			if( curr_node != "e" )
+			{
+				if( x == nodes[next_node].x )
+				{
+					console.log("Car arrived at node "+next_node+" in "+(new Date().getTime()-start_time.getTime())/1000);
+				
+					has_green_light = nodes[curr_node].txt == "G" ? true : false;
+				
+					if( has_green_light )
+					{
+						curr_node = next_node;
+						next_node = conns[curr_node].name;
+					}
+				}
+			
+				if( has_green_light )
+				{
+					x+=1;
+				}
+			}
+		}
+		
+		var car_speed = 48; // pixels per second
+		var fps = 50;
+		var move = fps/car_speed;
+		var nodes = {
+			a : {x : 116, y: 10, r: 3, g: 4, loop : 0, txt : "R"},
+			b : {x : 235, y: 10, r: 2, g: 5, loop : 0, txt : "R"},
+			c : {x : 420, y: 10, r: 3, g: 3, loop : 0, txt : "R"},
+			d : {x : 884, y: 10, r: 2, g: 1, loop : 0, txt : "R"},
+			e : {x : 1062, y: 10, r: 4, g: 2, loop: 0, txt : "R"}
+		}
+		var conns = {
+			a : {name : "b", cost: 119},
+			b : {name : "c", cost: 185},
+			c : {name : "d", cost: 464},
+			d : {name : "e", cost: 178}
+		}
+		var ctx = document.getElementById("canvas").getContext("2d");
+		var x = nodes["a"].x-10;
+		var y = nodes["a"].y;
+		var running_time = 0;
+		var curr_node = "a";
+		var next_node = "a";
+		var start_time = new Date();
+		setInterval(function(){
+			ctx.clearRect(0, 0, 1200, 50);
+			draw_nodes(ctx);
+			draw_semaphores(ctx);
+			draw_car(ctx);
+			update_car(ctx);
+			
+			running_time += 1000/fps;
+		}, 1000/fps);
+	</script>
+</body>
+</html>

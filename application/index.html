@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link href="normalize.css" rel="stylesheet">
+	<script src="jquery-1.8.0.min.js"></script>
+	<script src="Animation.js"></script>
+	<script src="level.js"></script>
+	<script src="dijkstra.js"></script>
+	<script src="Node.js"></script>
+	<script src="Nodes.js"></script>
+	<script src="Random.js"></script>
+	<script src="Semaphore.js"></script>
+	<script src="Car.js"></script>
+	<script src="Configuration.js"></script>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#start_crossover").click(function(){
+			var anim = new Animation("crossover_canvas1", "crossover_canvas2");
+			var s1 = new Configuration(-1, true, false);
+			var s2 = new Configuration( -1, true, false);
+			var index = $("#crossover_index").val();
+			anim.animate_crossover(index, s1, s2);
+			
+		});
+		
+		$("#show_crossover").click(function(){
+
+			if( $("#crossover_anim").css('display') == "none" )
+			{
+				//$("#text").css("margin-top", "110px");
+				$("#crossover_anim").show();
+				$("#show_crossover").val("Skrij animacijo križanja");
+				$("#next_text").css("margin-top", "120px")
+			}
+			else
+			{
+				//$("#text").css("margin-top", "0px");
+				$("#crossover_anim").hide();
+				$("#show_crossover").val("Prikaži animacijo križanja");
+				$("#next_text").css("margin-top", "0px")
+			}
+		});
+	});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="navbar navbar-fixed-top navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="/">Vizualizacija optimizacije prometa z genetskimi algoritmi</a>
+					<ul class="nav">
+						<li class="active"><a href="index.html">Uvod</a></li>
+						<li><a href="GA.html">Vizualizacija</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="hero-unit" style="background: white">
+			<h1>Uvod</h1>
+			<p>
+				Na tej strani v grobem predstavimo delovanje genetskih algoritmov in problem optimizacije prometa. Opišemo, kako smo genetske algoritme uporabili za reševanje problema optimizacije prometa in predstavimo nastavitve animacije ter genetskih algoritmov.
+			</p>
+			<h3>
+				Genetski algoritmi
+			</h3>
+			<p>
+				Genetski algoritimi so del evolucijskega računanja, ki za iskanje rešitev povzemajo ideje od v naravi skozi evolucijo dokazano uspešnih načinov delovanja in preživetja. Z operacijami križanja, mutacije, dedovanja in izbire skozi generacijo tvorijo nove, boljše <strong>osebke</strong>.
+			</p>
+			<p>
+				Problem predstavimo v taki obliki, da mu lahko določimo kvaliteto. Za optimizacijo prometa smo osebek predstavili kot zaporedje parov časov rdečih in zelenih luči na semaforjih. Enote so v sekundah:
+			</p>
+			<blockquote>
+				<p>
+					
+						(20, 30), (60, 80), (10, 50), (50, 80), (10, 70), (70, 50), (50, 80)
+				</p>
+			</blockquote>
+			<p>
+				Na začetku so osebki generirani naključno (<strong>začetna populacija</strong>), nato pa jih z genetskimi operatorji spreminjamo. V vsaki generaciji z različnimi <strong>metodami izbire</strong> izberemo osebke za razmnoževanje. Osebke izberemo glede na <strong>kvaliteto</strong>.
+			</p>
+			<p>
+				Funkcija, ki objektivno oceni kvaliteto osebka imenujemo <strong>fitness funkcija</strong>. Za naš problem je fitness funkcija definirana kot <em>skupni čas potovanja vseh vozil od začetka do konca</em>. Čas potovanja izmerimo s simulacijo animacije. Simulacija poteka enako kot animacija, le da ničesar ne izrišemo.
+			</p>
+			<p>
+				Nad najboljšimi osebki (<strong>elita</strong>) nato izvedemo križanje in mutacijo, saj želimo dober genetski material ohraniti. Križanje ustvari dva <strong>potomca</strong>, ki nastopata v novi populaciji.
+			</p>
+			<p>
+				<button type="button" class="btn btn-info" id="show_crossover">Prikaži animacijo križanja</button>
+				<div class="tab-content well" style="display: none; height: 200px;" id="crossover_anim">
+					Mesto križanja: <input type="text" style="margin-top: 8px;" value="3" id="crossover_index">
+					<button class="btn" type="button" id="start_crossover">Start</button><br /><br />
+					<canvas id="crossover_canvas1" width="610" height="100" style="background-color: white; border: 1px solid #cccccc; position: absolute; z-index: 0">
+						<script type="text/javascript">
+							var crossover_ctx1 = document.getElementById("crossover_canvas1").getContext("2d");
+						</script>
+					</canvas>
+					<canvas id="crossover_canvas2" width="610" height="100" style="position: absolute; z-index: 1">
+						<script type="text/javascript">
+							var crossover_ctx1 = document.getElementById("crossover_canvas1").getContext("2d");
+						</script>
+					</canvas>
+				</div>
+			</p>
+			<p>
+				Mutacija pomeni, da na naključno izbranem mestu zamenjamo genetski zapis. Brez mutacij bi krizanje lahko izmenjevalo samo genetski material v začetni slučajno generirani populaciji. Mutacija doda potencialno novo informacijo. Mutacija ne sme biti prevelika, saj je potem pokvari preveč potencialno koristnih genov v osebkih.
+			</p>
+			<p>
+				Delež križanja in mutacije določimo vnaprej. V deležu mutacije in križanja smo že določili delež <strong>elitizma</strong>. Določen je z:
+			</p>
+			<blockquote>
+				<p>
+					delež elitizma = 1 - (delež mutacije + delež križanja)
+				</p>
+			</blockquote>
+			<p>
+				Elitizem pomeni neposreden prenos določenega števila najboljših osebkov v novo populacijo. Dobra stran elitizma je, da imamo v vsaki generaciji najboljše osebek in zaradi variance pri izbiri ne izgubljamo dobrega genetskega materiala.
+			</p>
+			<h3>
+				Vizualizacija
+			</h3>
+			<p>
+				Vizualizacijo optimizacije prometa z genetskimi algoritmi smo predstavili z animacijo in grafi. Za genetske algoritme in animacijo lahko nastavljamo različne parametre
+			<p>
+			<p>
+				Za genetske algoritme lahko nastavljamo:
+				<ul>
+					<li>
+						način izbire (enoturnirska izbira, proporcionalna izbira, stohastično univerzalno vzorčenje),
+					</li>
+					<li>
+						število generacij,
+					</li>
+					<li>
+						velikost populacije,
+					</li>
+					<li>
+						delež križanja in
+					</li>
+					<li>
+						delež mutacije
+					</li>
+				</ul>
+			</p>
+			<p>
+				Za animacijo lahko nastavimo:
+				<ul>
+					<li>
+						število vozil,
+					</li>
+					<li>
+						maksimalen čas, ko je prižgana posamezna luč.
+					</li>
+				</ul>
+			</p>
+			<p>
+				Od nastavitev parametrov je odvisna hitrost izvajanja genetskega algoritma, zato mora uporabnik previdno nastavljati te parametre.
+			</p>
+			<p>
+				Večji je maksimalen čas posamezne luči, večji je prostor možnih rešitev, zato je potrebno temu ustrezno povečati velikost populacije. S tem omogočimo algoritmu, da bo preiskal dovolj velik prostor možnih rešitev, vendar pa moramo zato povečati število generacij, saj bo algoritem potreboval dlje časa, da najde najboljšo rešitev. Na hitrost izvajanja genetskega algoritma vpliva tudi število vozil.
+			</p>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function get_intersections()
+		{
+			var intersections = [];
+			for( var i in level.nodes )
+			{
+				var node_rank = 0;
+				for( var j in level.connections[i] )
+				{
+					node_rank++;
+				}
+				
+				if( node_rank >= 3 )
+				{
+					intersections.push(i);
+				}
+			}
+			
+			return intersections;
+		}
+		var nodes = new Nodes(level);
+		var intersections = get_intersections();
+
+	</script>
+</body>
+</html>

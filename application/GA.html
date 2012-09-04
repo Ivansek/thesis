@@ -1,0 +1,820 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link href="css/ui-lightness/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css">
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	<script src="base64.js"></script>
+	<script src="canvas2image.js"></script>
+	<script src="jquery-1.8.0.min.js"></script>
+	<script src="jquery-ui-1.8.23.custom.min.js"></script>
+	<script src="flot/jquery.flot.js"></script>
+	<script src="level.js"></script>
+	<script src="dijkstra.js"></script>
+	<script src="Node.js"></script>
+	<script src="Nodes.js"></script>
+	<script src="Random.js"></script>
+	<script src="Semaphore.js"></script>
+	<script src="Car.js"></script>
+	<script src="Configuration.js"></script>
+	<script src="Animation.js"></script>
+	<script src="Population.js"></script>
+	<style type="text/css">
+	.clear{
+		clear:both;
+	}
+	.text{
+		float: left;
+		width: 150px;
+		padding: 6px;
+	}
+	.left{
+		float: left;
+	}
+	.my-accordion{
+		background-color: white; 
+		border: 1px solid #e5e5e5
+	}
+	</style>
+	<script type="text/javascript">
+	var f = true;
+	var page = 0;
+
+	$(document).ready(function(){
+		$("#start_crossover").click(function(){
+			var anim = new Animation("crossover_canvas1", "crossover_canvas2");
+			var s1 = new Configuration(-1, true, false);
+			var s2 = new Configuration( -1, true, false);
+			var index = $("#crossover_index").val();
+			anim.animate_crossover(index, s1, s2);
+		});
+		
+		$("#show_crossover").click(function(){
+			if( $("#crossover_anim").css('display') == "none" )
+			{
+				$("#crossover_anim").show();
+				$("#show_crossover").val("Skrij animacijo križanja");
+				$("#next_text").css("margin-top", "120px")
+			}
+			else
+			{
+				$("#crossover_anim").hide();
+				$("#show_crossover").val("Prikaži animacijo križanja");
+				$("#next_text").css("margin-top", "0px")
+			}
+		});
+
+		$("#myTabs a").click(function(e){
+			e.preventDefault();
+			$(this).tab('show')
+		})
+
+		$("#choose-all").click(function(){
+
+			$("#results-table tr").each(function(index){
+				$(this).children("td:last").children("label").children("input").attr("checked", f);
+			});
+
+			if( f )
+			{
+				$(this).text("Odznači vse");
+				f = false;
+			}
+			else
+			{
+				f = true;
+				$(this).text("Označi vse");
+			}
+		});
+
+		$("#results-next").click(function(){
+			if( $("#results-back").parent("li").hasClass("disabled") )
+			{
+				$("#results-back").parent("li").removeClass("disabled");
+			}
+
+			if( !$(this).parent("li").hasClass("disabled") )
+			{
+				$("#results-table tr").slice(15*(page+1), 15*(page+1)+15).show();
+				$("#results-table tr").slice(15*(page), 15*(page)+15).hide();
+				page++;
+
+				if( page == Math.round(parseInt($("#pop_size").val())/15) )
+				{
+					$(this).parent("li").addClass("disabled");
+				}
+			}
+			return false;
+		});
+
+		$("#results-back").click(function(){
+			
+			if( $("#results-next").parent("li").hasClass("disabled") )
+			{
+				$("#results-next").parent("li").removeClass("disabled");
+			}
+
+			if( !$(this).parent("li").hasClass("disabled") )
+			{
+				$("#results-table tr").slice(15*(page-1), 15*(page-1)+15).show();
+				$("#results-table tr").slice(15*(page), 15*(page)+15).hide();
+				page--;
+
+				if( page == 0)
+				{
+						$(this).parent("li").addClass("disabled");
+				}
+			}
+			return false;
+		});
+	});
+	</script>
+</head>
+<body>
+	<div class="container" style="width: 1024px;">
+		<div class="navbar navbar-fixed-top navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="/">Vizualizacija optimizacije prometa z genetskimi algoritmi</a>
+					<ul class="nav">
+						<li><a href="index.html">Uvod</a></li>
+						<li class="active"><a href="GA.html">Vizualizacija</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="hero-unit" style="background-color: white;">
+			<h1>Vizualizacija</h1>
+			<p>
+				<dl>
+					<dt>
+						Nastavitve
+					</dt>
+					<dd>
+						Uporabnik nastavi parametre genetskega algoritma in animacije ter zažene izvajanje genetskega algoritma. 
+					</dd>
+					<dt>
+						Rezultati in animacija
+					</dt>
+					<dd>
+						Prikazani so rezultati izvajanja genetskih algoritmov v obliki grafov in animacije. Za izvajanje animacije uporabnik izbere eno ali več ponujenih rešitev.
+					</dd>
+				</dl>
+			</p>
+
+			<ul class="nav nav-pills" style="margin-bottom: 0px" id="myTabs">
+				<li class="active">
+					<a href="#nastavitve" data-toggle="pill">
+						Nastavitve
+					</a>
+				</li>
+				<li>
+					<a href="#rezultati" data-toggle="pill">
+						Rezultati in animacija
+					</a>
+				</li>
+			</ul>
+
+			<div class="tab-content well">
+				<div class="tab-pane fade active in" id="nastavitve">
+					<form class="form-horizontal">
+
+						<h4>Nastavitve genetskega algoritma</h4>
+
+						<div class="control-group">
+							<label class="control-label">
+								Način izbire osebkov
+							</label>
+							<div class="controls">
+								<select id="method">
+									<option value="one_tournament">Enoturnirska izbira</option>
+									<option value="roulette_wheel">Proporcionalna izbira</option>
+									<option value="stohastic_universal_sampling">Stohasticno univerzalno vzorcenje</option>
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								Št. generacij
+							</label>
+							<div class="controls">
+								<input type="text" id="gen_size" value="50" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								Velikost populacije
+							</label>
+							<div class="controls">
+								<input type="text" id="pop_size" value="50" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								Delež križanja
+							</label>
+							<div class="controls">
+								<input type="text" id="cross_rate" value="0.70"/>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								Delež mutacije
+							</label>
+							<div class="controls">
+								<input type="text" id="mutate_rate" value="0.05"/>
+							</div>
+						</div>
+
+						<h4>Nastavitve animacije</h4>
+
+						<div class="control-group">
+							<label class="control-label">
+								Št. vozil
+							</label>
+							<div class="controls">
+								<input type="text" id="num_cars" value="20">
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">
+								Čas posamezne luči
+							</label>
+							<div class="controls">
+								<input type="text" id="semaphore_max_time" value="1">
+							</div>
+						</div>
+
+						<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" onclick="start();">
+							Zaženi GA
+						</button>
+
+						<div class="modal fade hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-header">
+								<h3 id="myModalLabel">Izvajanje genetskega algoritma</h3>
+								<p>
+									Izvajanje genetskega algoritma lahko nekaj časa traja.
+								</p>
+							</div>
+							<div class="modal-body">
+								<p align="center">
+									 Prosim počakajte ... <span id="progress-text">0%</span>
+								</p>																
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="tab-pane fade in" id="rezultati">
+					<div class="accordion" id="accordion2">
+		                <div class="accordion-group">
+		                  	<div class="accordion-heading">
+		                    	<a class="accordion-toggle collapsed btn-inverse" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+		                      		Animacija
+		                    	</a>
+		                  	</div>
+		                  	<div id="collapseTwo" class="accordion-body collapse in">
+		                    	<div class="accordion-inner my-accordion">
+		                    		<p >
+										<div id="animation-error" class="alert alert-error hide">
+											<button type="button" class="close" data-dismiss="alert">×</button>
+											Niste izbrali nobene rešitve za animacijo. Prosim izbere vsaj eno.
+										</div>
+									</p>
+		                      		<div class="pull-left" style="width: 200px;">
+											Hitrost animacije
+									</div>
+									<div class="pull-left">
+										<div id="slider" style="margin-top: 5px; margin-bottom: 10px; width: 220px; border: 1px solid #999"></div>
+									</div>
+									<div class="pull-left" style="margin-left: 20px; margin-top: 0px;">
+										<span id="anim-speed">1</span>
+									</div>
+									<div class="clearfix"></div>
+
+									<p>
+										<button class="btn btn-primary" id="animation-control-button" disabled="true" onclick="start_animation()">
+											Zaženi animacijo
+										</button>
+										<button type="button" id="restart-animation-button" disabled="true" class="btn btn-primary" onclick="restart_animation()">
+											Ponovno zaženi
+										</button>
+									</p>
+									<p>
+										<small>
+											Animira se <span id="animated-generation" class="badge badge-info">0</span> generacija
+										</small>
+									</p>
+									<p>
+										<div class="pull-left">
+											<canvas id="canvas" width="560" height="698" style="background-image: url(images/level.png);">
+												<script type="text/javascript">
+													var ctx = document.getElementById("canvas").getContext("2d");
+													ctx.font = "11px Arial";
+												</script>
+											</canvas>
+										</div>
+										<div class="pull-right">
+											
+											<table class="table">
+				                      			<thead>
+				                      				<tr>
+				                      					<th>#</th>
+				                      					<th>Kvaliteta</th>
+				                      					<th style="text-align: center;">
+				                      						<button type="button" id="choose-all" class="btn btn-primary btn-mini">
+				                      							Označi vse
+				                      						</button>
+				                      					</th>
+				                      				</tr>
+				                      			</thead>
+				                      			<tbody id="results-table">
+				                      			</tbody>
+				                      		</table>
+			                      			<ul class="pager">
+			                      				<li class="disabled"><a id="results-back" href="">Nazaj</a></li>
+			                      				<li><a id="results-next" href="">Naprej</a></li>
+			                      			</ul>
+										</div>
+										<div class="clearfix"></div>
+									</p>
+		                    	</div>
+		                  	</div>
+		                </div>
+		                <div class="accordion-group">
+		                  	<div class="accordion-heading">
+		                    	<a class="accordion-toggle collapsed btn-inverse" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+		                      		Grafi
+		                    	</a>
+		                  	</div>
+		                  	<div id="collapseThree" class="accordion-body collapse" style="height: 0px;">
+		                    	<div class="accordion-inner my-accordion">
+		                    		<h4>Konvergenca najboljšega osebka</h4>
+		                      		<div id="placeholder" style="width:300px; height:300px;"></div>
+		                      		<h4>Konvergenca populacije</h4>
+									<div id="placeholder2" style="width:300px; height:300px;"></div>
+		                    	</div>
+		                  	</div>
+		                </div>
+		              </div>
+					</div>
+				</div>
+			</div>
+			<!--<textarea style="width: 800px; height: 800px;" id="log"></textarea>-->
+		</div> <!-- <div class="hero-unit"> -->
+	</div> <!-- <div class="contianer"> -->
+
+	<script type="text/javascript">
+		var SEMAPHORE_MAX_TIME = 1;
+		var CAR_SPEED = 50;
+		var SEMAPHORE_SPEED = 1;
+
+		var FPS = 50;
+		var ANIM_SPEED = 1;
+		var SEMAPHORE_FACTOR = SEMAPHORE_SPEED*ANIM_SPEED
+		var MOVE_STEP = ~~((CAR_SPEED*ANIM_SPEED)/FPS);
+		var ANIM_SPEED_USER = ANIM_SPEED
+
+		$("#slider").slider({
+			value : 10,
+			min : 10,
+			max : 200,
+			step : 10,
+			/*slide: function(){
+				ANIM_SPEED_USER = ~~(parseInt($("#slider").slider('value'))/10);
+				$("#anim-speed").text(ANIM_SPEED_USER)
+			},*/
+			stop: function(){
+				ANIM_SPEED_USER = ~~(parseInt($("#slider").slider('value'))/10);
+				$("#anim-speed").text(ANIM_SPEED_USER)
+			}
+			/*click: function(){
+				ANIM_SPEED_USER = ~~(parseInt($("#slider").slider("value"))/10);
+				$("#anim-speed").text(ANIM_SPEED_USER)
+			}*/
+		});
+		
+		
+		function showTooltip(x, y, contents) {
+			$('<div id="tooltip">' + contents + '</div>').css( 
+			{
+	            position: 'absolute',
+	            display: 'none',
+	            top: y + 5,
+	            left: x + 5,
+	            border: '1px solid #fdd',
+	            padding: '2px',
+	            'background-color': '#fee',
+	            opacity: 0.80
+	        }
+			).appendTo("body").fadeIn(200);
+	    }
+	    var previousPoint = null;
+
+		function tooltip(event, pos, item) 
+		{
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+
+                    $("#tooltip").remove();
+                    var x = item.datapoint[0].toFixed(2),
+                        y = item.datapoint[1].toFixed(2);
+
+                    showTooltip(item.pageX, item.pageY,y);
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;            
+            }
+		}
+		
+		function generate_cars(num)
+		{
+			var cars = [];
+			for( var i=0; i<num; i++)
+			{
+				cars.push(new Car(i))
+			}
+			
+			return cars;
+		}
+		
+		function get_intersections()
+		{
+			var intersections = [];
+			for( var i in level.nodes )
+			{
+				var node_rank = 0;
+				for( var j in level.connections[i] )
+				{
+					node_rank++;
+				}
+				
+				if( node_rank >= 3 )
+				{
+					intersections.push(i);
+				}
+			}
+			
+			return intersections;
+		}
+		
+		function init_visited_intersections()
+		{
+			var obj = {};
+			var inters = get_intersections();
+			for( var i in inters )
+			{
+				obj[inters[i]] = {};
+				for( var j in level.connections[inters[i]])
+				{
+					obj[inters[i]][j] = [];
+				}
+				//obj[inters[i]]["up"] = [];
+				//obj[inters[i]]["down"] = [];
+				//obj[inters[i]]["left"] = [];
+				//obj[inters[i]]["right"] = [];
+			}
+			
+			return obj;
+		}
+		
+		function count_nodes()
+		{
+			var n = 0;
+			for( var i in level.nodes)
+			{
+				n++;
+			}
+			return n;
+		}
+		
+		function get_cars_total_travel_time(cars)
+		{
+			var conf = new Configuration(-1, false);
+			
+			for( var i in conf.configuration )
+			{
+				conf.configuration[i].red = 0;
+				conf.configuration[i].green = 0;				
+			}
+			
+			var total = 0;
+			for( var i in cars)
+			{
+				var car = cars[i];
+				total += car.fitness(conf.configuration);
+			}
+			
+			return total;
+		}
+		
+		var animation_interval;
+		function animate_pop(configuration, solution)
+		{
+			var total_loop = 0;
+			var running_time = 0;
+			var conf = configuration;
+			var startTime = new Date();
+			var c = 0;
+			$("#animated-generation").text(parseInt(solution)+1);
+
+			if( ANIM_SPEED != ANIM_SPEED_USER)
+			{
+				ANIM_SPEED = ~~(parseInt($("#slider").slider("value"))/10);
+				MOVE_STEP = (CAR_SPEED*ANIM_SPEED)/FPS
+				SEMAPHORE_FACTOR = SEMAPHORE_SPEED*ANIM_SPEED;
+				console.log("MOVE_STEP: "+MOVE_STEP);
+			}
+			
+			animation_interval = setInterval(function()
+			{
+				if( animation_runs )
+				{
+					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+					conf.draw(ctx, running_time);
+					conf.update(ctx, running_time);
+
+					for( var i in cars)
+					{
+						var car = cars[i];
+						car.draw(ctx)
+						car.update(startTime, conf);
+						//car.move();
+					}
+					
+					for( var i in cars_to_remove )
+					{
+						var index = cars.indexOf(cars_to_remove[i]);
+						if( index > -1 )
+						{
+							cars.splice(index, 1);
+						}
+					}
+					cars_to_remove.splice(0, cars_to_remove.length);
+					running_time++;
+					
+					if( cars.length <= 0 )
+					{
+						cars = copy_cars(tmp_cars);
+						clearInterval(animation_interval);
+						if( animate_solutions.length > 0 )
+						{
+							var animated_solution = animate_solutions[0];
+							var p = best_pops[animated_solution];
+							animate_solutions.splice(0, 1);
+							animate_pop(p, animated_solution);
+						}
+					
+					}
+				}
+			}, ~~(1000/FPS))
+		}
+		
+				
+		function GA(gen_size, population_size, intersections, crossover_rate, mutation_rate, selection_method)
+		{
+			var population = new Population(population_size, crossover_rate, mutation_rate);
+			//population.animation.animate_crossover(3, new Configuration(intersections, 0), new Configuration(intersections, 1));
+			var generation = 1;
+			var ga = setInterval(function(){
+
+ 				var best_pop_solution = population.get_best_solution();
+				best_pops.push(best_pop_solution);
+				$('#results-table').append('<tr ' + (generation > 15 ? 'style="display: none"' : '') + ">" +
+					'<td>' +
+						generation +
+					'</td>' + 
+					/*'<td>' +
+						best_pop_solution.to_string() + 
+					'</td>' +*/
+					'<td>' + 
+						best_pop_solution.fitness +
+					'</td>' +
+					'<td>' +
+						'<label class="checkbox">' +
+							'<input type="checkbox" value="'+generation+'">' +
+						'</label>' +
+					'</td>' + 
+					'</tr>');
+
+				var pop_f = population.total_fitness()
+				population.build_new_population(selection_method, intersections);
+
+				pop_fitnesses.push([generation-1, pop_f]);
+				
+				if( generation >= gen_size)
+				{
+					$('#accordion2').on('shown', function(){
+						var d = [];
+						for(var i in best_pops)
+						{
+							d.push([i, best_pops[i].fitness]);
+						}
+						
+						$.plot($('#placeholder'), [{data: d}],
+							{
+								lines: {show: true},
+								grid: { hoverable: true, clickable: true },
+								points: {show: true}
+							}
+						);
+						$("#placeholder").bind("plothover", tooltip);
+						
+						$.plot($('#placeholder2'), [{data: pop_fitnesses}],
+							{
+								lines: {show: true},
+								grid: { hoverable: true, clickable: true },
+								points: {show: true}
+							}
+						);
+						
+						$("#placeholder2").bind("plothover", tooltip);
+					});
+					
+					//logger("GENEREATIONS: "+generation);
+					clearInterval(ga);
+					
+					if( ANIM_SPEED != ANIM_SPEED_USER)
+					{
+						ANIM_SPEED = ANIM_SPEED_USER;
+						MOVE_STEP = (CAR_SPEED*ANIM_SPEED)/FPS
+						console.log("MOVE_STEP: "+MOVE_STEP);
+						SEMAPHORE_FACTOR = SEMAPHORE_SPEED*ANIM_SPEED;
+					}
+					$('#myTabs a:last').tab('show')
+					$("#animation-control-button").removeAttr("disabled");
+					$("#restart-animation-button").removeAttr("disabled");
+					$("#myModal").modal('hide');					
+				}
+				var progress = ((generation*100)/gen_size);
+				$("#progress-text").html(progress+"%");
+				$(".progress .bar").css("width", progress+"%");
+				generation++;
+			}, 10);
+		}
+		
+		function restart_animation()
+		{
+			clearInterval(animation_interval);
+			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			animation_runs = true;
+			animation_started = false;
+			cars = copy_cars(tmp_cars);
+			animate_solutions.length = 0;
+			start_animation();
+		}
+
+		function start_animation()
+		{
+			if( !animation_started )
+			{
+
+				$("#results-table tr td label input:checked").each(function(){
+					animate_solutions.push(parseInt($(this).val())-1);
+				});
+
+				if( animate_solutions.length > 0 )
+				{
+					$("#animation-error").hide(500);
+					animation_started = true;
+					animation_runs = true;
+					$("#animation-control-button").text("Ustavi animacijo");
+
+					var animated_solution = animate_solutions[0];
+					var p = best_pops[animated_solution];
+
+					animate_solutions.splice(0, 1);
+					animate_pop(p, animated_solution);
+				}
+				else
+				{
+					$("#animation-error").show(500);
+				}
+			}
+			else
+			{
+				if( animation_runs )
+				{
+					$("#animation-control-button").text("Nadaljuj z animacijo");
+					animation_runs = false;
+				}
+				else
+				{
+					$("#animation-control-button").text("Ustavi animacijo");
+					animation_runs = true;
+				}
+			}
+		}
+		
+		function logger(text)
+		{
+			document.getElementById("log").innerHTML += text+"\n";
+		}
+		
+		function copy_cars(cars1)
+		{
+			var tmp = [];
+			for( var i in cars1 )
+			{
+				var car = cars1[i];
+				var c = new Car();
+				c.copy(car);
+				tmp.push(c);
+			}
+			
+			return tmp;
+		}
+
+		var canvasID = "canvas";
+		var nodes = new Nodes(level);
+		var edge_nodes = nodes.get_edge_nodes();	
+		var num_nodes = count_nodes();
+		var cars = [];
+		var total_distance = 0;
+		var cars_to_remove = [];
+		var intersections;
+		var visited_intersections;
+		var visited_intersections_f;
+		var fitness_queue = [];
+		var pop_fitnesses = [];
+		var best_pops = [];
+		var tmp_cars;
+		var generation = 1;
+		var animate_solutions = []
+		var animation_runs = false;
+		var animation_started = false;
+
+		function start()
+		{
+			$("#results-table").children("tr").remove();
+			$("#placeholder").children().remove();
+			$("#placeholder2").children().remove();
+			$("#progress-text").text("0%");
+			$("#animated-generation").text("0");
+			$("#animation-control-button").text("Začni animacijo");
+			$("#choose-all").text("Označi vse");
+			$("#results-next").parent("li").removeClass("disabled")
+			$("#results-back").parent("li").addClass("disabled")
+
+			clearInterval(animation_interval);
+
+			f = true;
+			page = 0;
+			cars = [];
+			cars_to_remove = [];
+			intersections = get_intersections();
+			visited_intersections = init_visited_intersections();
+			visited_intersections_f = init_visited_intersections();
+			fitness_queue = [];
+			pop_fitnesses = [];
+			best_pops = [];
+			tmp_cars = [];
+			generation = 1;
+			animate_solutions = [];
+			animation_runs = false;
+			animation_started = false;
+
+			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			$("#results-table tr").remove();
+			best_pops.length = 0;
+			pop_fitnesses.length = 0;
+			animate_solutions.length = 0;
+			
+			ANIM_SPEED = 1;
+			ANIM_SPEED_USER = ANIM_SPEED;
+			$("#slider").slider({value: 10});
+			$("#anim-speed").text(1);
+			SEMAPHORE_MAX_TIME = $('#semaphore_max_time').val();
+			MOVE_STEP = ~~((CAR_SPEED*ANIM_SPEED)/FPS)
+			console.log("MOVE_STEP: "+MOVE_STEP);
+			SEMAPHORE_FACTOR = SEMAPHORE_SPEED*ANIM_SPEED;
+
+			var pop_size = parseInt($('#pop_size').val());
+			var num_cars = parseInt($('#num_cars').val());
+			var cross_rate = parseFloat($('#cross_rate').val());
+			var mutate_rate = parseFloat($('#mutate_rate').val());
+			var gen_size = parseFloat($('#gen_size').val());
+			var selection_method = $('#method').val();
+			cars.length = 0;
+			setTimeout(function(){
+
+				cars = generate_cars($('#num_cars').val());
+				for(var i in cars)
+				{
+					cars[i].init_position();
+				}
+				tmp_cars = copy_cars(cars);
+
+				new GA(gen_size, pop_size, intersections, cross_rate, mutate_rate, selection_method);
+			}, 1000);
+		}
+	
+	</script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

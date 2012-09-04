@@ -1,0 +1,26 @@
+<html>
+<head>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800"></canvas>
+	<script type="text/javascript">
+		var ctx = document.getElementById("canvas").getContext("2d");
+		var startTime = new Date();
+		var x = 0;
+		var y = 10;
+		var interval = setInterval(function()
+		{
+			if( x <= 119)
+			{
+				ctx.fillRect(x,y, 10,10);
+				x++;
+				
+			}
+			else{
+				console.log(new Date().getTime() - startTime.getTime())
+				clearInterval(interval)
+			}
+		}, 20);
+	</script>
+</body>
+</html>
