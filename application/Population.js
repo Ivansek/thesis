@@ -47,6 +47,7 @@ Population.prototype.stohastic_universal_sampling = function()
 	var start_offset = Math.random();
 	var cumulative_exp = 0;
 	var index = 0;
+	var random_generator = new Random()
 	for( var i in this.population )
 	{
 		cumulative_exp += (this.population[i].fitness / total_fitness) * selection_size
@@ -77,20 +78,19 @@ Population.prototype.stohastic_universal_sampling = function()
 	while( new_population.length < ~~(this.population.length*this.c_rate))
 	
 	this.population.sort(this.sort_by_fitness);
-	var elita = [];
 	// ELITIZEM
 	for( var i=0; i<~~(this.population.length - (this.population.length*(this.c_rate+this.m_rate))); i++ )
 	{
 		new_population.push(this.population[i]);
-		elita.push(this.population[i]);
 	}
 	
+	//Mutacija brez vracanja
+	random_generator.reset();
 	var n_mutate = ~~(this.population.length*this.m_rate);
-	var random_generator = new Random();
 	for( var i=0; i<n_mutate; i++)
 	{
-		var r = random_generator.unique_random(0, elita.length);
-		var offspring = this.mutate(elita[r]);
+		var r = random_generator.unique_random(0, n_mutate);
+		var offspring = this.mutate(this.population[r]);
 		offspring.calculate_fitness();
 		new_population.push(offspring);
 	}
@@ -146,6 +146,7 @@ Population.prototype.roulette_wheel = function()
 		sum_of_probs += parseFloat(prob_tmp.toFixed(2));
 	}
 	
+	var offsprings_coll = [];
 	// ruletno kolo
 	do
 	{
@@ -187,16 +188,19 @@ Population.prototype.roulette_wheel = function()
 		
 		if( offsprings[0].fitness > offsprings[1].fitness )
 		{
+			offsprings_coll.push(offsprings[1])
 			new_population.push(offsprings[1]);
 		}
 		else
 		{
+			offsprings_coll.push(offsprings[0]);
 			new_population.push(offsprings[0]);
 		}
 	}
 	while(new_population.length < ~~(this.population.length*(this.c_rate)))
 	
-	
+
+
 	//this.population.sort(this.sort_by_fitness);
 	for( var i=0, j=this.population.length-1; i<~~(this.population.length/2); i++, j--)
 	{
@@ -205,12 +209,11 @@ Population.prototype.roulette_wheel = function()
 		this.population[j].fitness = tmp;
 	}
 	
-	var elita = [];
+	this.population.sort(this.sort_by_fitness);	
 	// ELITIZEM
 	for( var i=0; i<~~(this.population.length - (this.population.length*(this.c_rate+this.m_rate))); i++ )
 	{
 		new_population.push(this.population[i]);
-		elita.push(this.population[i]);
 	}
 	
 		/*logger("PRED MUTACIJO")
@@ -225,8 +228,8 @@ Population.prototype.roulette_wheel = function()
 	var n_mutate = ~~(this.population.length*this.m_rate);
 	for( var i=0; i<n_mutate; i++)
 	{
-		var r = random_generator.unique_random(0, elita.length);
-		var offspring = this.mutate(elita[r]);
+		var r = random_generator.unique_random(0, n_mutate);
+		var offspring = this.mutate(this.population[r]);
 		offspring.calculate_fitness();
 		new_population.push(offspring);
 	}

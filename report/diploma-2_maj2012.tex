@@ -182,7 +182,7 @@ Ponavadi so kri\v zi\v s\v ca  in neusklajeni \v casi lu\v ci na semaforjih glav
 
 Z dodajanjem kri\v zi\v s\v c in semaforjev nara\v s\v ca zahtevnost optimizacije prometa. Klasi\v cne deterministi\v cne postopke je te\v zko uporabiti na problemih z visoko zahtevnostjo, saj pogosto niso \v casovno sprejemljivi. Genetski algoritmi, s posnemanjem procesa evolucije, delujejo \v casovno bolj sprejemljivo, vendar ne zagotavljajo optimalnosti.
 
-Z genetskimi algoritmi \v zelimo optimizirati \v case rde\v cih in zelenih lu\v ci na semaforjih tako, da vsa vozila pridejo od za\v cetka do cilja \v cimhitreje in po najkraj\v si poti. Re\v sitve vizualiziramo z animacijo premikanja vozil v cestnem omre\v zju s semaforji in kri\v zi\v s\v ci. Cestno omre\v zje vnaprej definiramo, \v stevilo vozil pa je parameter. Animacija poteka toliko \v casa, da vsi avtomobili prispejo na cilj. Animacija slu\v zi kot orodje za la\v zjo razlago delovanja genetskih algoritmov na realnem problemu.
+Z genetskimi algoritmi \v zelimo optimizirati \v case rde\v cih in zelenih lu\v ci na semaforjih tako, da vsa vozila pridejo od za\v cetka do cilja \v cimhitreje in po najkraj\v si poti. Re\v sitve vizualiziramo z animacijo premikanja vozil v cestnem omre\v zju s semaforji in kri\v zi\v s\v ci. Cestno omre\v zje vnaprej definiramo, \v stevilo vozil pa je parameter. Animacija poteka toliko \v casa, da vsa  vozila prispejo na cilj. Animacija slu\v zi kot orodje za la\v zjo razlago delovanja genetskih algoritmov na realnem problemu.
 
 \section{Napoved vsebine po poglavjih}
 \textbf{V drugem poglavju} opi\v semo delovanje genetskih algoritmov, razlo\v zimo delovanje razli\v cnih genetskih operatorjev (kri\v zanje, mutacija) in opi\v semo razli\v cne metode izbire osebkov za reprodukcijo.\\
@@ -193,7 +193,7 @@ Z genetskimi algoritmi \v zelimo optimizirati \v case rde\v cih in zelenih lu\v 
 
 \chapter{Genetski algoritmi}
 \label{ch1}
-Genetski algoritmi omogo\v cajo enostaven in skoraj generi\v cen pristop k re\v sevanju kompleksnih optimizacijskih problemov. Kljub enostavnosti genetski algoritem potrebuje smiselne in dolo\v cene parametre, da lahko najde dobre re\v sitve. Izbira neustreznih parametrov vodi v dalj\v si \v cas izvajanja programa in slab\v se rezultate
+Genetski algoritmi omogo\v cajo enostaven in skoraj generi\v cen pristop k re\v sevanju kompleksnih optimizacijskih problemov. Kljub enostavnosti genetski algoritem potrebuje smiselno dolo\v cene parametre, da lahko najde dobre re\v sitve. Izbira neustreznih parametrov vodi v dalj\v si \v cas izvajanja programa in slab\v se rezultate
 \cite{sarmady}.
 
 V nadaljevanju opi\v semo predstavitev zna\v cilno za genetske algoritme, genetske operatorje kri\v zanja in mutacije, funkcijo kvalitete in nekaj postopkov za izbiro osebkov za reprodukcijo.
@@ -227,13 +227,13 @@ Osebek mora biti predstavljen tako, da mu je mogo\v ce dolo\v citi kvaliteto, sa
 
 Za na\v s problem je osebek predstavljen kot zaporedje parov \v casov rde\v cih in zelenih lu\v ci na semaforjih. Primer za pet kri\v zi\v s\v c bi zgledal takole:
 \begin{center}
-(20, 30), (60, 80), (10, 50), (50, 80), (10, 70)
+(2, 3), (6, 8), (1, 5), (5, 8), (1, 7)
 \end{center}
 
-En par \v stevil ustreza enemu kri\v zi\v s\v cu, \v casi pa so v sekundah in predstavljajo dele\v z sekunde. Par (20, 30) pomeni, da rde\v ca lu\v c gori 20 sekund, zelena pa 30 sekund.
+En par \v stevil ustreza enemu kri\v zi\v s\v cu, \v casi pa so v sekundah. Par (2, 3) pomeni, da rde\v ca lu\v c gori 2 sekund, zelena pa 3 sekunde.
 
 \section{Za\v cetna populacija}
-Populacija je v terminologiji genetskih algoritmov mno\v zica osebkov. Za\v cetna populacija je lahko generirana naklju\v cno ali stohasti\v con, nato pa se z genetskimi operatorji spreminja.
+Populacija je v terminologiji genetskih algoritmov mno\v zica osebkov. Za\v cetna populacija je lahko generirana naklju\v cno ali stohasti\v cno, nato pa se z genetskimi operatorji spreminja.
 
 Ve\v cja populacija izbolj\v suje delovanje genetskih algoritmov, vpliva pa tudi na \v stevilo generacij, potrebnih, da kvaliteta re\v sitev konvergira. Velikost populacije je odvisna od vrste problema, ponavadi vsebuje ve\v c sto ali tiso\v c osebkov.
 
@@ -249,12 +249,13 @@ Znaki da je funkcija kvalitete slabo oblikovana so:
 
 \section{Kri\v zanje}
 \label{seq:krizanje}
-Kri\v zanje (\textit{ang. crossover}) je najpomembnej\v sa tehnika izmenjave genetskega materiala med osebki. Uporablja se eno, dvo in ve\v cmestno kri\v zanje. Enomestno kri\v zanje poteka tako, da naklju\v cno izberemo to\v cko kri\v zanja in preko te to\v cke izmenjamo genetski material (slika \ref{krizanje}).
+Kri\v zanje (ang. \textit{crossover}) je najpomembnej\v sa tehnika izmenjave genetskega materiala med osebki. Uporablja se eno, dvo in ve\v cmestno kri\v zanje. Enomestno kri\v zanje poteka tako, da naklju\v cno izberemo to\v cko kri\v zanja in preko te to\v cke izmenjamo genetski material (slika \ref{krizanje}).
+
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.75]{krizanje.png}
+\includegraphics[scale=0.70]{krizanje.png}
 \end{center}
-\caption{Mesto kri\v zanja je ozna\v ceno z rde\v co \v crto. Prvi del (vijol\v cna barva) genetskega zapisa se ohrani, drugi del (zelena in turkizna barva) pa se izmenjata.}
+\caption{Mesto kri\v zanja je ozna\v ceno z rde\v co \v crto. Prvi del (bela barva) genetskega zapisa se ohrani, drugi del (modra in rumena) pa se izmenjata.}
 \label{krizanje}
 \end{figure}
 
@@ -281,7 +282,7 @@ Osebki so nato izbrani za reprodukcijo s pomo\v cjo metode ruletnega kolesa. Del
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[scale=0.65]{ruletno_kolo.png}
+\includegraphics[scale=0.50]{ruletno_kolo.png}
 \end{center}
 \caption{Izbira osebkov za reprodukcijo z metodo ruletnega kolesa. Osebek zaseda dele\v z kolesa proporcionalen njegovi kvaliteti \cite{slika ruletno kolo}.}
 \label{ruletno kolo}
@@ -305,7 +306,7 @@ Slabost do sedaj opisanih metod izbire je velika varianca glede na funkcijo kval
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.75]{stohasticno_univerzalno_vzorcenje.png}
+\includegraphics[scale=0.70]{stohasticno_univerzalno_vzorcenje.png}
 \end{center}
 \caption{Ilustracija stohasti\v cnega univerzalnega vzor\v cenja. Osebke razvrstimo na interval $[0, 1]$ proporcionalno njihovi kvaliteti. Izbiramo $N$ osebkov, zato za\v cetno to\v cko $r$ naklju\v cno izberemo na intervalu $[0, \frac{1}{N}]$. Osebke izberemo na mestih $r + \frac{i}{N}, i \in [0, 1, \dots, N-1]$ \cite{inteligentni sistemi}.}
 \label{fig:stohasticno univerzalno vzorcenje}
@@ -320,12 +321,12 @@ Elitizem je strategija, ki dolo\v cen del najbolj\v sih osebkov prenese direktno
 
 \chapter{Problem optimizacije prometa}
 \label{ch2}
-V tem poglavju predstavimo raziskave na podro\v cju optimizacije prometa, opi\v semo na\v s pristop k re\v sevanju problema in ga formaliziramo. Predstavimo algoritem za iskanje najkra\v se poti v grafu in uporabo genetskih algoritmov na problemu optimizacije prometa.
+V tem poglavju predstavimo raziskave na podro\v cju optimizacije prometa, opi\v semo na\v s pristop k re\v sevanju problema in ga formaliziramo. Predstavimo algoritem za iskanje najkraj\v se poti v grafu in uporabo genetskih algoritmov na problemu optimizacije prometa.
 
 \section{Ozadje}
 Promet na cestah se pove\v cuje s hitrej\v sim tempom kot porast prebivalstva. Problem urejanja prometa je prisoten v vseh ve\v cjih mestih v vseh dr\v zavah. Ve\v canje prometa povzro\v ca prometne zastoje, zato se vozniki in potniki sre\v cujejo s problemi, kot so nepotrebno zapravljanje \v casa, stresom, onesna\v zevanjem, pove\v cano nevarnostjo nesre\v c in ostalimi resnimi problemi. Obstajajo razli\v cni pristopi kako re\v sevati take probleme. Ena od mo\v znosti je uporaba obstoje\v cih cest s pravilnim rokovanjem semaforjev. 
 
-Dana\v snje raziskave na podro\v cju optimizacije semaforjev lahko razdelimo na dva dela. Po eni strani je bilo veliko truda vlo\v zenega v razvoj visoko prilagodljivih semaforjev, ki so sposobni reagirati na spremembe v prometu takoj, v realnem \v casu. Po drugi strani, pa se ob delitvi \v casa na  faze (npr.: jutranja, popoldanska, no\v cna), zdi uporaba prednastavljenih semaforjev dokaj razumljiva.
+Dana\v snje raziskave na podro\v cju optimizacije semaforjev lahko razdelimo na dva dela. Po eni strani je bilo veliko truda vlo\v zenega v razvoj visoko prilagodljivih semaforjev, ki so sposobni reagirati na spremembe v prometu takoj, v realnem \v casu. Po drugi strani, pa se ob delitvi \v casa na  faze (npr. jutranja, popoldanska, no\v cna), zdi uporaba prednastavljenih semaforjev dokaj razumljiva.
 
 Drugo razlikovanje bi lahko naredili med hevristi\v cnimi pristopi k optimizaciji in \v cistimi matemati\v cnimi pristopi in njihovimi osnovnimi modeli. Hevristi\v cni pristopi temeljijo na genetskih algoritmih, mehki logiki in nevronskih mre\v zah. Za njih je zna\v cilno da ponavadi dajejo dobre in hitre re\v sitve, ampak ne zagotavljajo  kvalitete dane re\v sitve v primerjavi z optimalno.
 
@@ -338,7 +339,7 @@ Postavimo se v vlogo voznika, ki \v zeli priti od doma v slu\v zbo \v cimhitreje
 Cestno omre\v zje je predstavljeno z grafom $G = (V, E)$, kjer je $V$ mno\v zica vozli\v s\v c in $E$ mno\v zica ute\v zenih povezav med vozli\v s\v ci. Vozli\v s\v ca ustrezajo kri\v zi\v s\v cem, povezave pa cestam med kri\v zi\v s\v ci. Ute\v zi na povezavah ustrezajo razdalji (v metrih), ki jih mora vozilo prepotovati, da dose\v ze naslednje vozli\v s\v ce.  Dodatno zahtevamo, da je vozli\v s\v ce kri\v zi\v s\v ce, \v ce je njegova stopnja $>$ 2, sicer je vozli\v s\v ce bodisi za\v cetno bodisi kon\v cno. Vozilo lahko za\v cne in kon\v ca svojo pot le v kon\v cnih oziroma za\v cetnih vozli\v s\v cih. Slika \ref{graph3} v obliki grafa prikazuje mo\v zno postavitev cestnega omre\v zja.
 \begin{figure}
 \begin{center}
-\includegraphics[totalheight=0.4\textheight]{graph3.png}
+\includegraphics[scale=0.70]{graph3.png}
 \end{center}
 \caption{Primer grafa s 15 vozli\v s\v ci in ute\v zenimi povezavami med njimi.}
 \label{graph3}
@@ -422,9 +423,9 @@ i & $f_i$ \\
 \label{fig:zamenjava kvalitete}
 \end{table}
 
-Po zamenjavi kvalitet moramo pred izvajanjem metode ruletnega kolesa kvalitete \v se normalizirati in izra\v cunati kumulativne vrednosti normaliziranih kvalitet. Kvalitete normaliziramo na interval med $[0, 1]$ tako, da za vsak osebek izra\v cunamo verjetnost proporcionalno glede na kumulativno oceno kvalitete vseh osebkov (ena\v cba  \ref{eq:proporcionalna izbira}).
+Po zamenjavi kvalitet moramo pred izvajanjem metode ruletnega kolesa (algoritem \ref{alg:ruletno kolo}) kvalitete \v se normalizirati in izra\v cunati kumulativne vrednosti normaliziranih kvalitet. Kvalitete normaliziramo na interval med $[0, 1]$ tako, da za vsak osebek izra\v cunamo verjetnost proporcionalno glede na kumulativno oceno kvalitete vseh osebkov (ena\v cba  \ref{eq:proporcionalna izbira}).
 
-Kumulativne vrednosti normaliziranih kvalitet izra\v cunamo tako, da pri\v stejemo k lastni kvaliteti kvalitete vseh prej\v snih osebkov (algoritem \ref{alg:akumulirana kvaliteta}).
+Kumulativne vrednosti normaliziranih kvalitet izra\v cunamo tako, da pri\v stejemo k lastni kvaliteti kvalitete vseh prej\v snih osebkov (algoritem \ref{alg:akumulirana kvaliteta}). 
 
 \begin{algorithm}
 \SetAlgoLined
@@ -462,7 +463,7 @@ kri\v zaj star\v sa in bolj\v sega od potomcev dodaj v novo populacijo\\
 \textcolor{red}{\textrm{\textit{dele\v z elitizma}} = 1 - (\textrm{\textit{dele\v z kri\v zanja}} + \textrm{\textit{dele\v z mutacije}})}
 \end{equation}
 
-\textcolor{red}{Z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} se v novo populacijo direktno preneslo 25 osebkov.}
+\textcolor{red}{Z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} se v novo populacijo direktno prenesle 25 osebkov.}
 
 \subsubsection{Mutacija in kri\v zanje}
 
@@ -501,7 +502,7 @@ index = 0\\
 
 Vsak osebek, ki je bil izbran za reprodukcijo s stohasti\v cnim univerzalnim vzor\v cenjem shranimo v \textit{mno\v zico izbranih osebkov}. Iz te mno\v zice nato, z vra\v canjem, izberemo dva star\v sa, ki s kri\v zanjem tvorita dva nova potomca. Bolj\v sega izmed potomcev shranimo v novo populacijo. Ta postopek ponavljamo dokler nismo napolnili nove populacije.
 
-Elitizem in mutacijo izvedemo na enak na\v cin kot pri proporcionalni izbiri, saj 25 osebkov prenesemo direktno v novo populacijo, mutacijo pa izvedemo nad petimi naklju\v cno izbranimi osebki elite (25 osebkov) in jih shranimo v novo populacijo.
+Elitizem in mutacijo izvedemo na enak na\v cin kot pri proporcionalni izbiri, saj 25 osebkov prenesemo direktno v novo populacijo, mutacijo pa izvedemo nad petimi naklju\v cno izbranimi osebki elite in jih shranimo v novo populacijo.
  
 \section{Vizualizacija}
 Vizualizacijo smo zasnovali kot spletno stran, saj je namen diplomskega dela priprava u\v cnega pripomo\v cka za pou\v cevanje genetskih algoritmov. Spletna stran je povsod dosegljiva, pri programih pa so razli\v cne omejitve glede plaftorme in namestitve. 
@@ -523,7 +524,7 @@ Za optimizacijski problem pa lahko nastavljamo:
 \begin{itemize}
 \item hitrost animacije,
 \item \v stevilo vozil,
-\item maksimalen \v cas, ko je pri\v zgana posamezna lu\v c
+\item maksimalen \v cas, ko je pri\v zgana posamezna lu\v c.
 \end{itemize}
 
 Od nastavitev parametrov je odvisna hitrost izvajanja genetskega algoritma, zato mora uporabnik previdno nastavljati te parametre.
@@ -552,9 +553,9 @@ Po koncu izvajanja so uporabniku ponujeni rezultati v obliki grafov in animacije
 
 
 \subsection{Animacija}
-Animacija se izvaja v t.i. zanki igre (ang. game loop). Naloga zanke je izrisovanje in posodabljanje parametrov objektov, ki jih izrisuje. Zanka igre se mora izvajati dovolj hitro, da je animacija teko\v ca. \v Clovesko oko lahko zazna med 10 in 12 razli\v cnih slik na sekundo, kljub temu pa se obi\v cajno izris dela 50-krat na sekundo.
+Animacija se izvaja v t.i. zanki igre (ang. \textit{game loop}). Naloga zanke je izrisovanje in posodabljanje parametrov objektov, ki jih izrisuje. Zanka igre se mora izvajati dovolj hitro, da je animacija teko\v ca. \v Clovesko oko lahko zazna med 10 in 12 razli\v cnih slik na sekundo, kljub temu pa se obi\v cajno izris dela 50-krat na sekundo.
 
-Pri animaciji smo izris 50-krat na sekundo dosegli tako, da ga delamo na 20 ms. V Javascriptu obstaja metoda \verb+setInterval(funkcija(), cas)+, ki na vsakih \verb+cas+ sekund pokli\v ce metodo \verb+funkcija()+. V na\v sem primeru je \verb+funkcija()+ metoda, ki poskrbi za izris in posodabljanje parametrov objekta, \verb+cas+ pa je nastavljen na 20 ms.
+Pri animaciji smo izris 50-krat na sekundo dosegli tako, da ga izvajamo na 20 ms. V Javascriptu obstaja metoda \verb+setInterval(funkcija(), cas)+, ki na vsakih \verb+cas+ milisekund pokli\v ce metodo \verb+funkcija()+. V na\v sem primeru je \verb+funkcija()+ metoda, ki poskrbi za izris in posodabljanje parametrov objekta, \verb+cas+ pa je nastavljen na 20 ms.
 
 Pri animaciji se izrisujejo vozila in semaforji.  Za poenostavitev problema in  animacije smo vsem vozilom definirali isto hitrost premikanja in isti \v cas prihajanja. Vsa vozila vstopijo v animacijo ob \v casu 0.
 
@@ -590,15 +591,15 @@ HTML5 ne prina\v sa samo novih zna\v ck in novega standarda. Skupaj z razvojem n
 \cite{html5rocks}:
 
 \begin{itemize}
-\item \textbf{internet v brezpovezavnem na\v cinu (ang. offline web)},
-\item \textbf{hranjenje podatkov v lokalni bazi brskalnika},
-\item \textbf{povezljivost} - klepetanje v realnem \v casu, hitrej\v se igre, itd.,
-\item \textbf{dostop do datote\v cnega sistema},
-\item \textbf{semantika} - internacionalizacija, novi atributi za pomensko ozna\v cevanje vsebine, itd.,
-\item \textbf{avdio/video},
-\item \textbf{3d grafika},
-\item \textbf{predstavitev} - 2D in 3D transformacije omogo\v cajo izdelavo bogatih uporabni\v skih vmesnikov,
-\item \textbf{zmogljivost} - spletne aplikacije se lahko primerjajo z zmogljivostjo namiznih aplikacij.
+\item internet v brezpovezavnem na\v cinu (ang. offline web),
+\item hranjenje podatkov v lokalni bazi brskalnika,
+\item povezljivost - klepetanje v realnem \v casu, hitrej\v se igre, itd.,
+\item dostop do datote\v cnega sistema,
+\item semantika - internacionalizacija, novi atributi za pomensko ozna\v cevanje vsebine, itd.,
+\item avdio/video,
+\item 3d grafika,
+\item predstavitev - 2D in 3D transformacije omogo\v cajo izdelavo bogatih uporabni\v skih vmesnikov,
+\item zmogljivost - spletne aplikacije se lahko primerjajo z zmogljivostjo namiznih aplikacij.
 \end{itemize}
 
 Te lastnosti in druge, skupaj s standardom HTML5 definirajo splet kot platformo (ang. \textit{web platform}).
@@ -655,12 +656,19 @@ GitHub ponuja funkcionalnosti socialnega omre\v zja, kot so: viri (ang. \textit{
 \chapter{Rezultati}
 \label{ch4}
 
-V tem poglavju predstavimo rezultate izvajanja genetskih algoritmov za vsako metodo izbire posebej in na koncu podamo ugotovitve.
+V tem poglavju predstavimo rezultate izvajanja genetskih algoritmov za vsako metodo izbire posebej in na koncu podamo ugotovitve. Vse metode izbire smo zagnali z nastavitvami iz razdelka \ref{seq:nastavitve parametrov}:
+
+\begin{itemize}
+\item \v st. generacij = 100,
+\item velikost populacije = 100,
+\item dele\v z kri\v zanja = 0.70,
+\item dele\v z mutacije = 0.05,
+\item hitrost vozila = 50 $\frac{km}{h}$.
+\end{itemize}
 
 \section{Proporcionalna izbira}
-Proporcionalno izbiro smo zagnali s parametri iz razdelka \ref{seq:nastavitve parametrov}. Slika \ref{res:proporcionalna izbira} prikazuje konvergenco kvalitete najbolj\v sega osebka. Na za\v cetku se kvaliteta zelo hitro izbolj\v sa (s 3.40 pade na 3.00), potem pa se izbolj\v suje po\v casneje. V\v casih se celo nekaj generacij ne izbolj\v sa, npr. od 60 do 100 generacije. 
 
-Genetski algoritem smo zagnali z manj\v sim \v stevilom generacij in pove\v canim dele\v zom kri\v zanja (0.80). Dobili smo bolj\v so re\v sitev, kot s prej\v snimi nastavitvami. Kvaliteta je konvergirala k vrednosti 2.19. Za proporcionalno izbiro lahko re\v cemo, da v splo\v snem potrebujemo manj generacij, vendar se moramo pri tem zavedati, da lahko na ta ra\v cun dobimo slab\v so re\v sitev.
+Analizo uspe\v snosti optimizacije za proporcionalno izbiro prikazuje slika \ref{res:proporcionalna izbira}. Opazimo, da se prvih nekaj generacij kvaliteta hitro izbolj\v suje (s 125 pade na 102.50) potem pa se izbolj\v suje po\v casneje. V\v casih se celo nekaj generacij ne izbolj\v sa, npr. od 40 do 100 generacije. Brez mutacije so re\v sitve po\v casneje konvergirale in k slab\v sim vrednostim.
 
 \begin{figure}
 \centering
@@ -670,84 +678,49 @@ Genetski algoritem smo zagnali z manj\v sim \v stevilom generacij in pove\v cani
 \end{figure}
 
 \section{Enoturnirska izbira}
-Pri metodi enoturnirske izbire smo osebke izbirali na dva na\v cina, z vra\v canjem in brez vra\v canja. V nadaljevanju so predstavljeni rezultati obeh izvajanj.
 
-\subsubsection{Izbira osebkov brez vra\v canja}
-Enoturnirsko izbiro smo najprej zagnali z nastavitvami iz razdelka \ref{seq:nastavitve parametrov}, osebke pa smo izbirali brez vra\v canja. Rezultate prikazuje slika \ref{fig1}. Opazimo, da kvaliteta najbolj\v sega osebka zelo niha, na zacetku sko\v ci z 2.75 na 2.88. Kljub nihanju se \v v kak\v sni generaciji kvaliteta izbolj\v sa. Za kon\v cno re\v sitev vrnemo re\v sitev z najbolj\v so kvaliteto, t.j. to\v cka z najmanj\v so vrednostjo na grafu (2.45 - rde\v ca to\v cka na sliki \ref{fig1}).
-
+Analiza uspe\v snosti optimizacije za enoturnirsko izbiro je prikazana na sliki \ref{fig1}. Opazimo, da se kvaliteta re\v sitev izbolj\v suje stopni\v casto. To pomeni, da se nekaj generacij ne izbolj\v sa, nato se izbolj\v sa, potem spet nekaj generacij ne, se izbolj\v sa, itd. Brez mutacije so re\v sitve hitreje konvergirale in k slab\v sim vrednostim, saj brez mutacije nismo dobili nove informacije, ki jo mutacija doda.
 \begin{figure}
 \centering
-\includegraphics[scale=0.70]{enotur_mut_brez_vrac.png}
-\caption{Rezultati izvajanja genetskega algoritma z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} z enoturnirsko izbiro, mutacijo in brez vra\v canja.}
+\includegraphics[scale=0.70]{enotur_izbira.png}
+\caption{Rezultati izvajanja genetskega algoritma z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} in enoturnirsko izbiro.}
 \label{fig1}
 \end{figure}
 
-Genetski algoritem smo nato pognali z istimi nastavitvami le, da smo dele\v z mutacije nastavili na 0.
-Rezultati so prikazani na sliki \ref{fig2} na kateri opazimo, da kvaliteta \v se vedno niha, a manj in se \v cez generacije izbolj\v suje. Za kon\v cno re\v sitev vrnemo re\v sitev z najbolj\v so oceno (2.47 - rde\v ca to\v cka na sliki \ref{fig2})
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.70]{enotur_brez_mut_brez_vrac.png}
-\caption{Rezultati izvajanja genetskega algoritma z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} z enoturnirsko izbiro, brez mutacije in brez vra\v canja.}
-\label{fig2}
-\end{figure}
-
-\subsubsection{Izbira osebkov z vra\v canjem}
-Enoturnirsko izbiro smo nato spremenili tako, da osebke za reprodukcijo izbira z vra\v canjem. Podobno kot prej smo genetski algoritem pognali z mutacijo in brez mutacije. Slika \ref{enotur brez mutacije} prikazuje, da so re\v sitve brez mutacije neuporabne.
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.70]{enotur_brez_mutacije.png}
-\caption{Rezultati izvajanja genetskega algoritma z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} z enoturnirsko izbiro, brez mutacije in z vra\v canjem.}
-\label{enotur brez mutacije}
-\end{figure}
-
-Slika \ref{fig3} prikazuje rezultate izvajanja genetskega algoritma z dele\v zom mutacije enakemu tistemu iz razdelka \ref{seq:nastavitve parametrov}. Vidimo, da kvaliteta \v se vedno niha vendar \v se cez generacije izbolj\v suje, splo\v sno pa so kvalitete slab\v se (najbolj\v sa ima vrednost 2.8). Bolj\v se kvalitete (slika \ref{fig4}) dose\v zemo \v ce nastavimo dele\v z mutacije na vrednost 0.10 (najbolj\v sa ima vrednost 2.45) . Dele\v z mutacije ne smemo nastaviti na preveliko vrednost, saj potem dobimo slab\v se rezultate.
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.70]{enotur_vrac_mut1.png}
-\caption{Rezultati izvajanja genetskega algoritma z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} z enoturnirsko izbiro, z mutacijo 0.05 in z vra\v canjem.}
-\label{fig3}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.70]{enotur_vrac_mut2.png}
-\caption{Rezultati izvajanja genetskega algoritma z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} z enoturnirsko izbiro, z mutacijo 0.10 in z vra\v canjem.}
-\label{fig4}
-\end{figure}
-
 \section{Stohasti\v cno univerzalno vzor\v cenje}
-Stohasti\v cno univerzalno vzor\v cenje smo zagnali z nastavitvami iz razdelka \ref{seq:nastavitve parametrov}. Na sliki \ref{fig5} opazimo, da kvaliteta zelo hitro konvergira. Z ve\v canjem mutacije je kvaliteta konvergirala po\v casneje in k bolj\v sim re\v sitvam.
+Analizo uspe\v snosti optimizacije s stohasti\v cnim univerzalnim vzor\v cenjem prikazuje slika \ref{fig5}, na kateri lahko opazimo, da kvaliteta zelo hitro konvergira. Z ve\v canjem mutacije je kvaliteta konvergirala po\v casneje, vendar k bolj\v sim re\v sitvam. Slika \ref{stoh brez mutacije} prikazuje izvajanje genetskega algoritma z dele\v zem kri\v zanja 0.60 in dele\v zem mutacije 0.10.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.70]{graph7.png}
+\includegraphics[scale=0.70]{stoh_izbira.png}
 \caption{Rezultati izvajanja genetskega algoritma z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} in metodo stohasti\v cnega univerzalnega vzor\v cenja.}
 \label{fig5}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.70]{stoh_brez_mut.png}
+\caption{Rezultati izvajanja genetskega algoritma z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} in metodo stohasti\v cnega univerzalnega vzor\v cenja z dele\v zem kri\v zanja 0.60 in dele\v zem mutacije 0.10.}
+\label{stoh brez mutacije}
+\end{figure}
+
 \section{Ugotovitve}
 
-Primerjava kvalitet re\v sitev vseh treh metod izbire poka\v ze, da najslab\v se rezultate daje metoda enoturnirske izbire. Preostali dve metodi dajeta bolj\v se rezultate in potrebujeta manj\v se \v stevilo generacij za konvergenco, zato lahko trdimo, da enoturnirska izbira ni primerna za re\v sevanje takega problema. 
+Primerjava kvalitet re\v sitev vseh treh metod izbire poka\v ze, da najslab\v se rezultate daje metoda enoturnirske izbire. Preostali dve metodi dajeta bolj\v se rezultate in potrebujeta manj\v se \v stevilo generacij za konvergenco.
 
 Rezultati izvajanja genetskega algoritma so pokazali, da je kvaliteta re\v sitev precej odvisna od za\v cetne populacije.
-\v Casovna zahtevnost vseh metod izbire je precej\v sna, za najpo\v casnej\v so pa se izka\v ze metoda stohasti\v cnega univerzalnega vzor\v cenja.
+\v Casovna zahtevnost vseh metod izbire je precej\v sna, za najpo\v casnej\v so se izka\v ze metoda stohasti\v cnega univerzalnega vzor\v cenja, za najhitrej\v so pa metoda enoturnirske izbire.
 
 \chapter{Zaklju\v cek}
 V diplomski nalogi predstavimo delovanje genetskih algoritmov in problem usmerjanja prometa.
-Predstavimo na\v s pristop k re\v sevanju problema in ga formaliziramo. Predstavimo implementacijo genetskih operatorjev in tehnologije uporabljene pri tem. Z grafi predstavimo rezultate izvajanja genetskih algoritmov z razli\v cnimi nastavitvami in ugotovitve.
+Predstavimo na\v s pristop k re\v sevanju problema in ga formaliziramo. Predstavimo implementacijo genetskih operatorjev in tehnologije uporabljene pri tem. Z analizo uspe\v snosti optimizacije predstavimo rezultate izvajanja genetskih algoritmov z razli\v cnimi nastavitvami in predstavimo ugotovitve. 
 
 \subsubsection{Mo\v zne izbolj\v save}
 
 Genetske algoritme je zaradi posnemanja evolucije enostavno paralelizirati. Izbolj\v sava, ki bi mo\v cno izbolj\v sala hitrost izvajanja genetskega algoritma, je paralelizacija ra\v cunanja kvalitete ene re\v sitve. To bi lahko naredili tako, da bi imeli en nadrejeni proces, ki bi hranil populacijo in izvajal genetske operatorje, osebke pa bi poslal podrejenim procesom. Edina naloga podrejenih procesov bi bila ra\v cunanje kvalitete ene re\v sitve
-\cite{http://tracer.uc3m.es/tws/cEA/documents/cant98.pdf}.
+\cite{uc3m}.
 
 Za doseganje bolj\v sih re\v sitev bi lahko na mestih, kjer se kvaliteta najbolj\v sega osebka nekaj generacij ne izbolj\v suje, pove\v cali mutacijo. Tako bi dobili nove osebke s potencialno novo informacijo.
-
-K re\v sevanju problema optimizacije prometa bi lahko pristopili druga\v ce. Mo\v zen pristop je, da bi sku\v sali optimizirati \v case na semaforjih glavne ceste s pritoki. Za vozila na glavni cesti bi \v zeleli ujeti zeleni val, vozila s stranskih cest pa bi predstavljala motnje. \v Case na semaforjih bi sku\v sali optimizirati tudi za vozila, ki prihajajo s stranskih cest, vendar bi imeli semaforji na kri\v zi\v s\v cu med glavno cesto in stransko manj\v so te\v zo. Na ta na\v cin bi se na glavni cesti s\v casoma za\v celi delati prometni zastoji in bi vozila potrebovala dlje \v casa za potovanje do cilja. 
- 
 
  
 \begin{thebibliography}{99}
@@ -755,25 +728,28 @@ K re\v sevanju problema optimizacije prometa bi lahko pristopili druga\v ce. Mo\
 \bibitem{he12-aes.pdf} Jiajia He, Zaien Hou, ``Ant colony algorithm for traffic signal timing optimization``, \textit{Advances in Engineering Software}, \v st. 43, zv. 1, str.  14-18, 2012.
 \bibitem{html5} Ciril Bohak, ``HTML5``, str. 3, 2010. Dostopno na:\\
 http://atlas.fri.uni-lj.si/html5-primeri/HTML5-Script.pdf
-\bibitem{sarmady} Siamak Sarmady, ``An Investigation on Genetic Algorithm Parameters``. Dostopno na:\\ http://sarmady.com/siamak/papers/genetic-algorithm.pdf
-\bibitem{wikipedia genetski algoritmi} (2012) Genetic algorithm from Wikipedia, the free encyclopedia. Dostopno na:\\
+\bibitem{sarmady} (avgust 2012) Siamak Sarmady, \textit{An Investigation on Genetic Algorithm Parameters}. Dostopno na:\\ 
+http://sarmady.com/siamak/papers/genetic-algorithm.pdf
+\bibitem{wikipedia genetski algoritmi} (avgust 2012) Genetic algorithm from Wikipedia, the free encyclopedia. Dostopno na:\\
 http://en.wikipedia.org/wiki/Genetic\_algorithm
-\bibitem{aijunkie} (2012) Genetic Algorithms in Plain English. Dostopno na:\\
+\bibitem{aijunkie} (julij 2012) Genetic Algorithms in Plain English. Dostopno na:\\
 http://www.ai-junkie.com/ga/intro/gat1.html
-\bibitem{github-stohasticno} (2012) Izvorna koda stohasti\v cnega univerzalnega vzor\v cenja v Javi. Dostopno na:\\
+\bibitem{github-stohasticno} (julij 2012) Izvorna koda stohasti\v cnega univerzalnega vzor\v cenja v Javi. Dostopno na:\\
 https://github.com/dwdyer/watchmaker/blob/master/framework/src/\\
 java/main/org/uncommons/watchmaker/framework/selection/\\
 StochasticUniversalSampling.java
-\bibitem{wikipedia-html} (2012) HTML from Wikipedia, the free encyclopedia. Dostopno na:\\
+\bibitem{wikipedia-html} (avgust 2012) HTML from Wikipedia, the free encyclopedia. Dostopno na:\\
 http://en.wikipedia.org/wiki/Html
-\bibitem{html5rocks} (2012) HTML5 Rocks. Dostopno na:\\
+\bibitem{html5rocks} (avgust 2012) HTML5 Rocks. Dostopno na:\\
 http://www.html5rocks.com/
-\bibitem{wikipedia-github} (2012) GitHub from Wikipedia, the free encyclopedia. Dostopno na:\\
+\bibitem{wikipedia-github} (avgust 2012) GitHub from Wikipedia, the free encyclopedia. Dostopno na:\\
 http://en.wikipedia.org/wiki/Github
-\bibitem{slika ruletno kolo}(2012) Roulette wheel selection. Dostopno na:\\
+\bibitem{slika ruletno kolo}(avgust 2012) Roulette wheel selection. Dostopno na:\\
 http://www.edc.ncl.ac.uk/highlight/rhjanuary2007g02.php/
-\bibitem{izvorna koda}(2012) Izvorna koda aplikacije. Dostopno na:\\
+\bibitem{izvorna koda}(avgust 2012) Izvorna koda aplikacije. Dostopno na:\\
 https://github.com/Ivansek/thesis
+\bibitem{u3m}(avgust 2012) Erick Cantu-Paz, \textit{A Survey of Parallel Genetic Algorithms}. Dostopno na:\\
+http://tracer.uc3m.es/tws/cEA/documents/cant98.pdf
 \end{thebibliography}
 \end{document}
 
