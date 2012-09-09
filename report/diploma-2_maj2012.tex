@@ -150,7 +150,7 @@ Zahvalil bi se tudi direktorju podjetja Xlab d.o.o., ki mi je kljub moji navzo\v
 % povzetek 
 \addcontentsline{toc}{chapter}{Povzetek}
 \chapter*{Povzetek}
-Cilj diplomske naloge je priprava u\v cnega pripomo\v cka za pou\v cevanje genetskih algoritmov. Implementirali smo ga kot spletno stran, genetske algoritme pa uporabili za optimizacijo prometa. Optimizacijo prometa smo zastavili kot optimizacijo \v casa rde\v cih in zelenih lu\v ci na semaforjih tako, da vozila v cestnem omre\v zju prevozijo obravnavani segment cestnega omre\v zja kar najhitreje. Cestno omre\v zje smo definirali kot graf, za iskanje najkraj\v se poti v grafu smo uporabili algoritem Dijkstra. Kon\v cne nastavitve \v casov rde\v cih in zelenih lu\v ci za vsa kri\v zi\v s\v ca v cestnem omre\v zju, smo vizualizirali z animacijo prometa in analizo uspe\v snosti optimizacije.
+Cilj diplomske naloge je priprava u\v cnega pripomo\v cka za pou\v cevanje genetskih algoritmov. Implementirali smo ga kot spletno stran, genetske algoritme pa uporabili za optimizacijo prometa. Optimizacijo prometa smo zastavili kot optimizacijo \v casa rde\v cih in zelenih lu\v ci na semaforjih tako, da vozila v cestnem omre\v zju prevozijo obravnavani segment cestnega omre\v zja kar najhitreje. Cestno omre\v zje smo definirali kot graf, za iskanje najkraj\v se poti v grafu smo uporabili algoritem Dijkstra. Kon\v cne nastavitve \v casov rde\v cih in zelenih lu\v ci za vsa kri\v zi\v s\v ca v cestnem omre\v zju smo vizualizirali z animacijo prometa in analizo uspe\v snosti optimizacije.
 
 % prazna stran
 \clearemptydoublepage
@@ -160,7 +160,7 @@ Cilj diplomske naloge je priprava u\v cnega pripomo\v cka za pou\v cevanje genet
 \selectlanguage{english}
 \addcontentsline{toc}{chapter}{Abstract}
 \chapter*{Abstract}
-In this thesis we prepare a learning tool for genetic algorithms. We implemented it as a web site where genetic algorithms solve a traffic optimization problem. The traffic optimization problem is defined as timing of red and green traffic lights for traffic in a given road network segment to flow as fast as possible. Road network is presented as graph and the shortest paths in graph are found with Dijkstra algorithm. Final configurations of red and green light timings for all intersections in the road segment are visualized with traffic animation and analysis of optimization.
+We describe a learning tool for genetic algorithms. We implemented it as a web site where genetic algorithms solve a traffic optimization problem. The traffic optimization problem is defined as a timing of red and green traffic lights in a given road segment. The road network is presented with a graph and the shortest paths are found with Dijkstra algorithm. Final configurations of red and green lights for all intersections in the road segment are visualized with an animation and graphical analysis of optimization.
 
 \selectlanguage{slovene}
 % prazna stran
@@ -230,7 +230,7 @@ Za na\v s problem je osebek predstavljen kot zaporedje parov \v casov rde\v cih 
 (2, 3), (6, 8), (1, 5), (5, 8), (1, 7)
 \end{center}
 
-En par \v stevil ustreza enemu kri\v zi\v s\v cu, \v casi pa so v sekundah. Par (2, 3) pomeni, da rde\v ca lu\v c gori 2 sekund, zelena pa 3 sekunde.
+En par \v stevil ustreza enemu kri\v zi\v s\v cu, \v casi pa so v sekundah. Par (2, 3) pomeni, da rde\v ca lu\v c gori 2 sekundi, zelena pa 3 sekunde.
 
 \section{Za\v cetna populacija}
 Populacija je v terminologiji genetskih algoritmov mno\v zica osebkov. Za\v cetna populacija je lahko generirana naklju\v cno ali stohasti\v cno, nato pa se z genetskimi operatorji spreminja.
@@ -353,7 +353,9 @@ Algoritem Dijkstra je zasnoval nizozemski ra\v cunalni\v ski in\v zenir Edsger D
 \label{seq:nastavitve parametrov}
 V poglavju \ref{ch2} smo na splo\v sno opisali delovanje genetskih algoritmov. V tem razdelku pa opi\v semo, kako smo uporabili genetske algoritme na na\v sem problemu.
 
-V nadaljevanju so na\v stete privzete nastavitve genetskih algoritmov in nastavitve animacije. Te nastavitve bomo uporabljali tudi v nadaljevanju, ko opisujemo, kako smo implementirali operacije genetskih algoritmov in pri predstavitvi rezultatov.\\\\
+V nadaljevanju so na\v stete privzete nastavitve genetskih algoritmov in nastavitve animacije. 
+\pagebreak
+Te nastavitve bomo uporabljali tudi v nadaljevanju, ko opisujemo, kako smo implementirali operacije genetskih algoritmov in pri predstavitvi rezultatov.\\\\
 Nastavitve genetskih algoritmov:
 \begin{itemize}
 \item \v st. generacij = 100,
@@ -376,56 +378,32 @@ V razdelku \ref{seq:predstavitev osebkov} smo osebek predstavili kot zaporedje p
 
 Na\v s cilj je za vseh 20 vozil poiskati optimalno nastavitev \v casov rde\v cih in zelenih lu\v ci na semaforjih, tako da bodo vsa vozila pri\v sla na cilj \v cimprej. To pomeni, da moramo izra\v cunati ali izmeriti \v cas potovanja \textbf{vseh} vozil.
 
-Kvaliteto re\v sitve ocenimo s simulacijo \footnote{Simulacijo smo izvedli enako kot animacijo, le da ni\v cesar ne izri\v semo.}, pri \v cemer smo parameter \textit{hitrost animacije} nastavili na vrednost 20 zato, da je simulacija hitrej\v sa. Simulacija simulira premikanje vseh vozil od za\v cetnega vozli\v s\v ca do kon\v cnega, pri tem pa merimo \v cas dokler vsa vozila ne pridejo na cilj. \textcolor{red}{Zaradi tehni\v cnih razlogov merimo \v stevilo korakov potrebnih za to, da vsa vozila prispejo na cilj. \v Stevilo korakov pretvorimo v \v cas potovanja z naslednjo formulo:}
+Kvaliteto re\v sitve ocenimo s simulacijo \footnote{Simulacijo smo izvedli enako kot animacijo, le da ni\v cesar ne izri\v semo.}, pri \v cemer smo parameter \textit{hitrost animacije} nastavili na vrednost 20 zato, da je simulacija hitrej\v sa. Simulacija simulira premikanje vseh vozil od za\v cetnega vozli\v s\v ca do kon\v cnega, pri tem pa merimo \v cas dokler vsa vozila ne pridejo na cilj. Zaradi tehni\v cnih razlogov merimo \v stevilo korakov potrebnih za to, da vsa vozila prispejo na cilj. \v Stevilo korakov pretvorimo v \textit{\v cas potovanja} z naslednjo formulo:
 
 \begin{equation}
-\textcolor{red}{\textrm{\textit{\v cas potovanja}} = \frac{\textrm{\textit{prepotovana dol\v zina vseh vozil}}}{\textrm{\textit{hitrost vozila ($\frac{m}{s}$)}}}}
+\textrm{\textit{\v cas potovanja}} = \frac{\textrm{\textit{prepotovana dol\v zina vseh vozil}}}{\textrm{\textit{hitrost vozila ($\frac{m}{s}$)}}}
 \end{equation}
 
 \begin{equation}
-\textcolor{red}{\textrm{\textit{prepotovana dol\v zina vseh vozil}} = \textrm{\textit{\v stevilo iteracij}}*\textrm{\textit{velikost koraka}}}
+\textrm{\textit{prepotovana dol\v zina vseh vozil}} = \textrm{\textit{\v stevilo iteracij}}*\textrm{\textit{velikost koraka}}
 \label{eq:prepotovana dolzina}
 \end{equation}
 
 \begin{equation}
-\textcolor{red}{\textrm{\textit{velikost koraka}} = \frac{\textrm{\textit{hitrost vozila}}*\textrm{\textit{hitrost animacije}}}{FPS}}
+\textrm{\textit{velikost koraka}} = \frac{\textrm{\textit{hitrost vozila}}*\textrm{\textit{hitrost animacije}}}{FPS}
 \label{eq:velikost koraka}
 \end{equation}
 
-\textcolor{red}{Velikost koraka (ena\v cba \ref{eq:velikost koraka}) slu\v zi za pretvorbo realne hitrosti vozila ($\frac{km}{h}$) v enoto potrebno za animacijo, oz. simulacijo ($\frac{px}{iteracijo}$).}
+Ena\v cba \ref{eq:velikost koraka} za \textit{velikost koraka} slu\v zi za pretvorbo realne hitrosti vozila ($\frac{km}{h}$) v enoto potrebno za animacijo, oz. simulacijo ($\frac{px}{iteracijo}$).
 
 \subsection{Proporcionalna izbira}
-Slabost izbire z ruletnim kolesom je, da ne deluje za minimizacijske probleme in moramo zato minimizacijski problem prevesti na maksimizacijski. V na\v sem primeru, kjer manj\v sa vrednost pomeni bolj\v so kvaliteto, smo to naredili tako, da predno kli\v cemo metodo ruletnega kolesa, zamenjamo kvalitete najslab\v sega z najbolj\v sim (tabela \ref{fig:zamenjava kvalitete}).\\ Po izvajanju metode zamenjamo kvalitete nazaj.
+Slabost izbire z ruletnim kolesom je, da ne deluje za minimizacijske probleme in moramo zato minimizacijski problem prevesti na maksimizacijski. \textcolor{red}{V na\v sem primeru, kjer manj\v sa vrednost pomeni bolj\v so kvaliteto, smo to naredili tako, da predno kli\v cemo metodo ruletnega kolesa, kvalitete pomno\v zimo s faktorjem $-1$. Na ta na\v cin prej manj\v se vrednosti dobijo ve\v cjo te\v zo, prej ve\v cje vrednosti pa manj\v so te\v zo.}
 
-\begin{table}
-\begin{center}
-\begin{tabular}{l | c | r}
-i & $f_i$ \\
-\hline
-4 & 87 \\
-1 & 135 \\
-2 & 213 \\
-5 & 333 \\
-3 & 413 \\
-\end{tabular}
-\hspace{6mm} $=>$ \hspace{6mm}
-\begin{tabular}{l | c | r}
-i & $f_i$ \\
-\hline
-4 & 413 \\
-1 & 333 \\
-2 & 213 \\
-5 & 135 \\
-3 & 87 \\
-\end{tabular}
-\end{center}
-\caption{Zamenjava ocen kvalitet najslab\v sih (ve\v cja \v stevilka) z najbolj\v simi (manj\v sa \v stevilka).}
-\label{fig:zamenjava kvalitete}
-\end{table}
+\textcolor{red}{Po izvajanju metode ruletnega kolesa kvalitete ponovno pomno\v zimo s faktorjem $-1$, da dobimo nazaj prvotne vrednosti. Algoritem \ref{alg:ruletno kolo} prikazuje psevdo kodo za izbiro osebkov z metodo ruletnega kolesa.}
 
-Po zamenjavi kvalitet moramo pred izvajanjem metode ruletnega kolesa (algoritem \ref{alg:ruletno kolo}) kvalitete \v se normalizirati in izra\v cunati kumulativne vrednosti normaliziranih kvalitet. Kvalitete normaliziramo na interval med $[0, 1]$ tako, da za vsak osebek izra\v cunamo verjetnost proporcionalno glede na kumulativno oceno kvalitete vseh osebkov (ena\v cba  \ref{eq:proporcionalna izbira}).
+Po pretvorbi kvalitet moramo pred izvajanjem metode ruletnega kolesa kvalitete \v se normalizirati in izra\v cunati kumulativne vrednosti normaliziranih kvalitet. Kvalitete normaliziramo na interval med $[0, 1]$ tako, da za vsak osebek izra\v cunamo verjetnost proporcionalno glede na kumulativno oceno kvalitete vseh osebkov (ena\v cba  \ref{eq:proporcionalna izbira}).
 
-Kumulativne vrednosti normaliziranih kvalitet izra\v cunamo tako, da pri\v stejemo k lastni kvaliteti kvalitete vseh prej\v snih osebkov (algoritem \ref{alg:akumulirana kvaliteta}). 
+Kumulativne vrednosti normaliziranih kvalitet izra\v cunamo tako, da pri\v stejemo k lastni kvaliteti kvalitete vseh prej\v snih osebkov, kar prikazuje algoritem \ref{alg:akumulirana kvaliteta}. 
 
 \begin{algorithm}
 \SetAlgoLined
@@ -456,27 +434,25 @@ kri\v zaj star\v sa in bolj\v sega od potomcev dodaj v novo populacijo\\
 \newpage
 \subsubsection{Elitizem}
 
-\textcolor{red}{V metodo proporcionalne izbire je avtomatsko vklju\v cen elitizem. Dele\v z elitizma spreminjamo s spreminjanjem dele\v za kri\v zanja in dele\v za mutacije:}
+V metodo proporcionalne izbire smo vklju\v cili elitizem, t.j. direkten prenos najbolj\v sih osebkov v novo populacijo. Dele\v z elitizma spreminjamo s spreminjanjem dele\v za kri\v zanja in dele\v za mutacije:
 
 \begin{equation}
 \label{eq:elitizem}
-\textcolor{red}{\textrm{\textit{dele\v z elitizma}} = 1 - (\textrm{\textit{dele\v z kri\v zanja}} + \textrm{\textit{dele\v z mutacije}})}
+\textrm{\textit{dele\v z elitizma}} = 1 - (\textrm{\textit{dele\v z kri\v zanja}} + \textrm{\textit{dele\v z mutacije}})
 \end{equation}
 
-\textcolor{red}{Z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} se v novo populacijo direktno prenesle 25 osebkov.}
+Z nastavitvami iz razdelka \ref{seq:nastavitve parametrov} se v novo populacijo direktno prenese 25 osebkov.
 
 \subsubsection{Mutacija in kri\v zanje}
 
-\textcolor{red}{Kri\v zanje izvajamo, kot je opisano v razdelku \ref{seq:krizanje}, mutacijo pa izvajamo nad elito. Dele\v z mutacije smo nastavili na 0.05 zato izberemo 5 osebkov ($100*0.05 = 5$) iz elite, jim naklju\v cno spremenimo genetski zapis in jih damo v novo populacijo.}
+Kri\v zanje izvajamo, kot je opisano v razdelku \ref{seq:krizanje}, mutacijo pa izvajamo nad potomci. Dele\v z mutacije smo nastavili na 0.05 zato petim (100*0.05 = 5) naklju\v cno izbranim potomcem naklju\v cno spremenimo genetski zapis in jih damo v novo populacijo.
 
 \subsection{Enoturnirska izbira}
 
-Simulacijo turnirjev smo implementirali tako, da smo velikost turnirja nastavili na 4 elemente. To pomeni, da moramo za populacijo velikosti 100 osebkov, odigrati 25 turnirjev. Osebki so za vsak turnir izbrani naklju\v cno in brez vra\v canja (en osebek \textbf{ne} more nastopati v ve\v c turnirjih). Vsak turnir nato sortiramo glede na oceno kvalitete osebkov in vzamemo dva najbolj\v sa ter ju kri\v zamo. Dobimo dva potomca, ki ju zamenjamo s preostalima osebkoma \v ce sta bolj\v sa, sicer ju zavr\v zemo in ohranimo bolj\v sa dva. 
-
-Na ta na\v cin zgradimo novo populacijo, nad katero izvedemo \v se mutacijo. \textcolor{red}{Novo populacijo uredimo nara\v s\v cajo\v ce glede na kvaliteto, vzamemo pet najbolj\v sih (manj\v sa vrednost) osebkov, jih mutiramo in zamenjamo s petimi najslab\v simi (ve\v cja vrednost).}
-%Mutacijo lahko izvedemo ali pa ne. V poglavju kjer predstavimo rezultate genetskih algoritmov smo testirali obe mo\v znosti.
+Simulacijo turnirjev smo implementirali tako, da smo velikost turnirja nastavili na 4 elemente. To pomeni, da moramo za populacijo velikosti 100 osebkov, odigrati 25 turnirjev. Osebki so za vsak turnir izbrani naklju\v cno in brez vra\v canja (en osebek \textbf{ne} more nastopati v ve\v c turnirjih). Vsak turnir nato sortiramo glede na oceno kvalitete osebkov in vzamemo dva najbolj\v sa ter ju kri\v zamo. Dobimo dva potomca, ki ju zamenjamo s preostalima osebkoma in shranimo v \emph{mno\v zico potomcev}. Nad to mno\v zico izvedemo mutacijo tako, da petim osebkom naklju\v cno spremenimo genetski zapis.
 
 \subsection{Stohasti\v cno univerzalno vzor\v cenje}
+
 Stohasti\v cno univerzalno vzor\v cenje smo prepisali v Javascript po izvorni kodi, ki smo jo na\v sli na internetu
 \cite{github-stohasticno}. Njegovo psevdo kodo prikazuje algoritem \ref{alg:stohasticno univerzalno vzorcenje}.
 
@@ -502,7 +478,7 @@ index = 0\\
 
 Vsak osebek, ki je bil izbran za reprodukcijo s stohasti\v cnim univerzalnim vzor\v cenjem shranimo v \textit{mno\v zico izbranih osebkov}. Iz te mno\v zice nato, z vra\v canjem, izberemo dva star\v sa, ki s kri\v zanjem tvorita dva nova potomca. Bolj\v sega izmed potomcev shranimo v novo populacijo. Ta postopek ponavljamo dokler nismo napolnili nove populacije.
 
-Elitizem in mutacijo izvedemo na enak na\v cin kot pri proporcionalni izbiri, saj 25 osebkov prenesemo direktno v novo populacijo, mutacijo pa izvedemo nad petimi naklju\v cno izbranimi osebki elite in jih shranimo v novo populacijo.
+Elitizem in mutacijo izvedemo na enak na\v cin kot pri proporcionalni izbiri, saj 25 osebkov prenesemo direktno v novo populacijo, mutacijo pa izvedemo nad petimi naklju\v cno izbranimi potomci in jih shranimo v novo populacijo.
  
 \section{Vizualizacija}
 Vizualizacijo smo zasnovali kot spletno stran, saj je namen diplomskega dela priprava u\v cnega pripomo\v cka za pou\v cevanje genetskih algoritmov. Spletna stran je povsod dosegljiva, pri programih pa so razli\v cne omejitve glede plaftorme in namestitve. 
@@ -534,7 +510,7 @@ Ve\v cji je maksimalen \v cas posamezne lu\v ci, ve\v cji je prostor mo\v znih r
 Vizualizacija je na voljo na GitHubu \cite{izvorna koda}, kjer si lahko uporabnik ogleda izvorno kodo, ali pa jo preto\v ci k sebi in sodeluje pri njenem razvoju.
 
 \subsection{Spletna stran}
-Spletna stran na za\v cetku uporabniku ponudi kratek pregled genetskih algoritmov in razlo\v zi, kako so genetski algoritmi uporabljeni na problemu optimizacije prometa. Uporabnik lahko nastavi parametre genetskih algoritmov in animacije. S pritiskom na gumb ``\textit{Za\v zeni GA}`` za\v zene genetski algoritem, ki potrebuje nekaj \v casa da izvede. Slika \ref{fig:vizualizacija-nastavitev parametrov} prikazuje stran z nastavitvami. 
+Spletna stran na za\v cetku uporabniku ponudi kratek pregled genetskih algoritmov in razlo\v zi, kako so genetski algoritmi uporabljeni na problemu optimizacije prometa. Uporabnik lahko nastavi parametre genetskih algoritmov in animacije. S pritiskom na gumb ``\textit{Za\v zeni GA}`` za\v zene genetski algoritem, ki potrebuje nekaj \v casa da se izvede. Slika \ref{fig:vizualizacija-nastavitev parametrov} prikazuje stran z nastavitvami. 
 
 \begin{figure}
 \includegraphics[scale=0.50]{nastavitev_parametrov.png}
@@ -545,7 +521,7 @@ Spletna stran na za\v cetku uporabniku ponudi kratek pregled genetskih algoritmo
 \begin{figure}
 \centering
 \includegraphics[scale=0.50]{rezultati.png}
-\caption{Animacija rezultatov}
+\caption{Animacija rezultatov.}
 \label{fig:vizualizacija-rezultati}
 \end{figure}
 
@@ -631,19 +607,6 @@ Z razvojem vse hitrej\v sih navideznih strojev in programskih ogrodij za ta jezi
 
 Javascript uporablja sintakso podobno programskemu jeziku C. Veliko imen in pravil poimenovanja spremenljivk ter funkcij je vzetih iz programskega jezika Java, vseeno pa sta tadva jezika nepovezana in imata popolnoma razli\v cno semantiko. Klju\v cni principi pri oblikovanju so bili vzeti iz Self in Scheme programskega jezika. 
 
-\begin{figure}
-\begin{lstlisting}
-var factorial = function(n) {
-    if (n === 0) {
-        return 1;
-    }
-    return n * factorial(n - 1);
-}
-\end{lstlisting}
-\caption{Primer Javascript kode za izra\v cun Fibonaccijevega zaporedja}
-\label{fig:javascript primer}
-\end{figure}
-
 \section{GitHub}
 \label{seq:github}
 GitHub je spletna storitev za gostovanje programske opreme, ki uporablja za nadzor razli\v cic programske opreme Git kontrolni sistem. Git je distribuiran kontrolni sistem za nadzor razli\v cic programske opreme in sistem za upravljanje z izvorno kodo.
@@ -724,32 +687,30 @@ Za doseganje bolj\v sih re\v sitev bi lahko na mestih, kjer se kvaliteta najbolj
 
  
 \begin{thebibliography}{99}
+\raggedright
 \bibitem{inteligentni sistemi} Igor kononenko, Marko Robnik \v Sikonja, \textit{Inteligentni sistemi}, Zalo\v zba FE in FRI, pogl. 12, 2010.
 \bibitem{he12-aes.pdf} Jiajia He, Zaien Hou, ``Ant colony algorithm for traffic signal timing optimization``, \textit{Advances in Engineering Software}, \v st. 43, zv. 1, str.  14-18, 2012.
 \bibitem{html5} Ciril Bohak, ``HTML5``, str. 3, 2010. Dostopno na:\\
 http://atlas.fri.uni-lj.si/html5-primeri/HTML5-Script.pdf
 \bibitem{sarmady} (avgust 2012) Siamak Sarmady, \textit{An Investigation on Genetic Algorithm Parameters}. Dostopno na:\\ 
 http://sarmady.com/siamak/papers/genetic-algorithm.pdf
-\bibitem{wikipedia genetski algoritmi} (avgust 2012) Genetic algorithm from Wikipedia, the free encyclopedia. Dostopno na:\\
-http://en.wikipedia.org/wiki/Genetic\_algorithm
+\bibitem{wikipedia genetski algoritmi} (avgust 2012) Genetic algorithm from Wikipedia, the free encyclopedia. Dostopno na: http://en.wikipedia.org/wiki/Genetic\_algorithm
 \bibitem{aijunkie} (julij 2012) Genetic Algorithms in Plain English. Dostopno na:\\
 http://www.ai-junkie.com/ga/intro/gat1.html
-\bibitem{github-stohasticno} (julij 2012) Izvorna koda stohasti\v cnega univerzalnega vzor\v cenja v Javi. Dostopno na:\\
-https://github.com/dwdyer/watchmaker/blob/master/framework/src/\\
-java/main/org/uncommons/watchmaker/framework/selection/\\
-StochasticUniversalSampling.java
-\bibitem{wikipedia-html} (avgust 2012) HTML from Wikipedia, the free encyclopedia. Dostopno na:\\
-http://en.wikipedia.org/wiki/Html
+\bibitem{github-stohasticno} (julij 2012) Izvorna koda stohasti\v cnega univerzalnega vzor\v cenja v Javi.\\ Dostopno na: https://github.com/dwdyer/watchmaker/blob/master/framework/src/
+java/main/org/uncommons/watchmaker/framework/selection/StochasticUniversalSampling.java
+\newpage
+\bibitem{wikipedia-html} (avgust 2012) HTML from Wikipedia, the free encyclopedia. \\
+Dostopno na: http://en.wikipedia.org/wiki/Html
 \bibitem{html5rocks} (avgust 2012) HTML5 Rocks. Dostopno na:\\
 http://www.html5rocks.com/
-\bibitem{wikipedia-github} (avgust 2012) GitHub from Wikipedia, the free encyclopedia. Dostopno na:\\
-http://en.wikipedia.org/wiki/Github
+\bibitem{wikipedia-github} (avgust 2012) GitHub from Wikipedia, the free encyclopedia.\\
+Dostopno na: http://en.wikipedia.org/wiki/Github
 \bibitem{slika ruletno kolo}(avgust 2012) Roulette wheel selection. Dostopno na:\\
 http://www.edc.ncl.ac.uk/highlight/rhjanuary2007g02.php/
 \bibitem{izvorna koda}(avgust 2012) Izvorna koda aplikacije. Dostopno na:\\
 https://github.com/Ivansek/thesis
-\bibitem{u3m}(avgust 2012) Erick Cantu-Paz, \textit{A Survey of Parallel Genetic Algorithms}. Dostopno na:\\
-http://tracer.uc3m.es/tws/cEA/documents/cant98.pdf
+\bibitem{uc3m}(avgust 2012) Erick Cantu-Paz, \textit{A Survey of Parallel Genetic Algorithms}. Dostopno na: http://tracer.uc3m.es/tws/cEA/documents/cant98.pdf
 \end{thebibliography}
 \end{document}
 

@@ -44,6 +44,7 @@ Population.prototype.stohastic_universal_sampling = function()
 	var total_fitness = this.total_fitness();
 	var selection = [];
 	var new_population = [];
+	var offsprings_coll = [];
 	var start_offset = Math.random();
 	var cumulative_exp = 0;
 	var index = 0;
@@ -67,32 +68,36 @@ Population.prototype.stohastic_universal_sampling = function()
 		var offsprings = this.crossover(selection[r1], selection[r2]);
 		if( offsprings[0].fitness > offsprings[1].fitness )
 		{
+			offsprings_coll.push(offsprings[1]);
 			new_population.push(offsprings[1]);
 		}
 		else
 		{
+			offsprings_coll.push(offsprings[0]);
 			new_population.push(offsprings[0]);
 		}
 		
 	}
-	while( new_population.length < ~~(this.population.length*this.c_rate))
-	
-	this.population.sort(this.sort_by_fitness);
-	// ELITIZEM
-	for( var i=0; i<~~(this.population.length - (this.population.length*(this.c_rate+this.m_rate))); i++ )
-	{
-		new_population.push(this.population[i]);
-	}
+	while( new_population.length < Math.round(this.population.length*this.c_rate))
 	
 	//Mutacija brez vracanja
 	random_generator.reset();
-	var n_mutate = ~~(this.population.length*this.m_rate);
+	var n_mutate = Math.round(this.population.length*this.m_rate);
 	for( var i=0; i<n_mutate; i++)
 	{
-		var r = random_generator.unique_random(0, n_mutate);
-		var offspring = this.mutate(this.population[r]);
-		offspring.calculate_fitness();
+		var r = random_generator.unique_random(0, new_population.length);
+		var offspring = this.mutate(new_population[r]);
 		new_population.push(offspring);
+	}
+
+	this.population.sort(this.sort_by_fitness_desc);
+
+	var e = 0;
+	// ELITIZEM
+	while( new_population.length < this.population.length)
+	{
+		new_population.push(this.population[e]);
+		e++;
 	}
 	
 	this.population = new_population;	
@@ -100,18 +105,20 @@ Population.prototype.stohastic_universal_sampling = function()
 
 Population.prototype.roulette_wheel = function()
 {
-	var total_fitness = this.total_fitness();
-	var new_population = [];
-	var random_generator= new Random();
 	// prevedemo minimzacijo na maximizacijo, tako da tisti z manjsim fitnessom dobi vecjo vrednost, tisti z vecjim pa manjso vrednost
 	// To naredimo samo zato da lahko uporabimo metodo ruletnega kolesa. Potem moramo vrednosti zamenjati nazaj.
-	this.population.sort(this.sort_by_fitness);
-	for( var i=0, j=this.population.length-1; i<~~(this.population.length/2); i++, j--)
+	for( var i=0; i<this.population.length; i++)
 	{
-		var tmp = this.population[i].fitness;
-		this.population[i].fitness = this.population[j].fitness;
-		this.population[j].fitness = tmp;
+		//var tmp = this.population[i].fitness;
+		this.population[i].fitness = -1*this.population[i].fitness;
+		//this.population[j].fitness = tmp;
 	}
+
+	var new_population = [];
+	var random_generator= new Random();
+	var total_fitness = this.total_fitness();
+	this.population.sort(this.sort_by_fitness_asc);
+
 	
 	// Normalize fitness
 	var sum = 0;
@@ -197,23 +204,15 @@ Population.prototype.roulette_wheel = function()
 			new_population.push(offsprings[0]);
 		}
 	}
-	while(new_population.length < ~~(this.population.length*(this.c_rate)))
+	while(new_population.length < Math.round(this.population.length*(this.c_rate)))
 	
 
 
-	//this.population.sort(this.sort_by_fitness);
-	for( var i=0, j=this.population.length-1; i<~~(this.population.length/2); i++, j--)
+	for( var i=0; i<this.population.length; i++)
 	{
-		var tmp = this.population[i].fitness;
-		this.population[i].fitness = this.population[j].fitness;
-		this.population[j].fitness = tmp;
-	}
-	
-	this.population.sort(this.sort_by_fitness);	
-	// ELITIZEM
-	for( var i=0; i<~~(this.population.length - (this.population.length*(this.c_rate+this.m_rate))); i++ )
-	{
-		new_population.push(this.population[i]);
+		//var tmp = this.population[i].fitness;
+		this.population[i].fitness = -1*this.population[i].fitness;
+		//this.population[j].fitness = tmp;
 	}
 	
 		/*logger("PRED MUTACIJO")
@@ -225,13 +224,20 @@ Population.prototype.roulette_wheel = function()
 	
 	//Mutacija brez vracanja
 	random_generator.reset();
-	var n_mutate = ~~(this.population.length*this.m_rate);
+	var n_mutate = Math.round(this.population.length*this.m_rate);
 	for( var i=0; i<n_mutate; i++)
 	{
-		var r = random_generator.unique_random(0, n_mutate);
-		var offspring = this.mutate(this.population[r]);
-		offspring.calculate_fitness();
+		var r = random_generator.unique_random(0, new_population.length);
+		var offspring = this.mutate(new_population[r]);
 		new_population.push(offspring);
+	}
+
+	var e = 0;
+	// ELITIZEM
+	while( new_population.length < this.population.length)
+	{
+		new_population.push(this.population[e]);
+		e++;
 	}
 	
 	/*logger("PO MUTACIJI")
@@ -334,7 +340,7 @@ Population.prototype.one_tournament = function(k, intersections)
 			var rand = random_generator.unique_random(0, this.population.length);//Math.random()*this.population.length); 
 			tournaments[i].push(this.population[rand]);
 		}
-		tournaments[i].sort(this.sort_by_fitness);
+		tournaments[i].sort(this.sort_by_fitness_desc);
 		
 		/*logger("#############");
 		logger("# TOURNAMENT "+(i+1)+"#")
@@ -357,21 +363,21 @@ Population.prototype.one_tournament = function(k, intersections)
 			var worst2 = tournaments[i][tournaments[i].length-1];
 			
 			offsprings[0].n = worst1.n;
-			offsprings_coll.push(worst1.n);
+			offsprings_coll.push((i*k)+2);
 			
-			if( offsprings[0].fitness < worst1.fitness )
-			{
+			//if( offsprings[0].fitness < worst1.fitness )
+			//{
 				tournaments[i][tournaments[i].length-2] = offsprings[0];
-			}
+			//}
 
 			if( worst2 !== undefined )
 			{
 				offsprings[1].n = worst2.n;
-				offsprings_coll.push(worst2.n);
-				if( offsprings[1].fitness < worst2.fitness )
-				{
+				offsprings_coll.push((i*k)+3);
+				//if( offsprings[1].fitness < worst2.fitness )
+				//{
 					tournaments[i][tournaments[i].length-1] = offsprings[1];
-				}
+				//}
 			}
 		}
 
@@ -411,24 +417,24 @@ Population.prototype.one_tournament = function(k, intersections)
 		logger(this.population[x].n+" : "+this.population[x].to_string()+", "+this.population[x].fitness);
 	}*/
 
-	this.population.sort(this.sort_by_fitness);
+	//this.population.sort(this.sort_by_fitness_desc);
 	
 	// which indexes should be mutated?
-	var n_mutate = this.population.length*this.m_rate;
+	var n_mutate = Math.round(this.population.length*this.m_rate);
 	random_generator.reset();
 	for( var i=0; i<n_mutate; i++)
 	{
-		this.population[this.population.length-i-1] = this.mutate(this.population[i]);
-		/*do
+		var r = 0;
+		do
 		{
-			var r = random_generator.unique_random(0, this.population.length);
+			r = random_generator.unique_random(0, this.population.length);
 		}
 		while(offsprings_coll.indexOf(r) == -1);
 		
-		var individual = this.population[r];
-		var mutant = this.mutate(individual);
+		this.population[r] = this.mutate(this.population[r]);
+		
 		//mutant.n = this.population[this.population.length-i-1].n;
-		this.population[r] = mutant;*/
+		
 	}
 
 //	this.population.sort(function(a, b){ return a.n - b.n;});
@@ -456,7 +462,24 @@ Population.prototype.total_fitness = function()
 	return total_fitness;
 }
 
-Population.prototype.sort_by_fitness = function(x,y){
+Population.prototype.sort_by_fitness_asc = function(x,y){
+	if(x.fitness > y.fitness)
+	{
+		return -1;
+	}
+
+	if( x.fitness == y.fitness)
+	{
+		return 0;
+	}
+
+	if( x.fitness < y.fitness )
+	{
+		return 1;
+	}
+}
+
+Population.prototype.sort_by_fitness_desc = function(x,y){
 	if(x.fitness > y.fitness)
 	{
 		return 1;

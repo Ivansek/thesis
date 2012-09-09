@@ -10,19 +10,30 @@ Animation.prototype.animate_crossover = function(index, o1, o2)
 
 	var start = {x:0, y:0};
 	var box = {w:25, h: 20}
+	this.ctx.fillStyle = "rgba(127,127,227, 0.5)";
 	for( var i in intersections)
 	{
+		this.ctx.fillRect(start.x, start.y, box.w,box.h);
+		this.ctx.save();
+		this.ctx.fillStyle = "#000000";
 		this.ctx.strokeRect(start.x, start.y, box.w,box.h);
 		this.ctx.fillText(o1.configuration[i].red+", "+o1.configuration[i].green, start.x+3, start.y+13);
+		this.ctx.restore();
+
 		start.x+=box.w;
 	}
 	
 	start.y=0;
 	start.x=intersections.length*box.w+50;
+	this.ctx.fillStyle = "rgba(127,227,127, 0.5)";
 	for( var i in intersections)
 	{
+		this.ctx.fillRect(start.x, start.y, box.w,box.h);
+		this.ctx.save();
+		this.ctx.fillStyle = "#000000";
 		this.ctx.strokeRect(start.x, start.y, box.w,box.h);
-		this.ctx.fillText(~~(o2.configuration[i].red)+", "+~~(o2.configuration[i].green), start.x+3, start.y+13);
+		this.ctx.fillText(o2.configuration[i].red+", "+o2.configuration[i].green, start.x+3, start.y+13);
+		this.ctx.restore();
 		start.x+=box.w;
 	}
 	
@@ -63,7 +74,7 @@ Animation.prototype.animate_crossover = function(index, o1, o2)
 			self.ctx_anim.restore();
 			start.x+=box.w;
 		}
-		
+		self.ctx_anim.fillStyle="rgba(127,227,127, 0.5)";
 		start.x=intersections.length*box.w+50;
 		for( var i=0; i<index; i++)
 		{
@@ -92,6 +103,8 @@ Animation.prototype.animate_crossover = function(index, o1, o2)
 				self.ctx.restore();
 				start.x+=box.w;
 			}
+
+			self.ctx.fillStyle="rgba(127,227,127, 0.5)";
 			start.x=intersections.length*box.w+50;
 			for( var i=0; i<index; i++)
 			{
@@ -113,7 +126,7 @@ Animation.prototype.animate_crossover = function(index, o1, o2)
 			var f2 = setInterval(function(){
 				self.ctx_anim.clearRect(0, 0, 1024, 768)
 				self.ctx_anim.save();
-				self.ctx_anim.fillStyle = "rgba(127, 227, 127, 0.5)";
+				self.ctx_anim.fillStyle = "rgba(127, 127, 227, 0.5)";
 				for( var i=index; i<intersections.length; i++)
 				{
 					self.ctx_anim.fillRect(start.x, start.y, box.w, box.h)
@@ -123,7 +136,7 @@ Animation.prototype.animate_crossover = function(index, o1, o2)
 					self.ctx_anim.restore();
 					start.x+=box.w;
 				}
-				
+				self.ctx_anim.fillStyle="rgba(127,227,127, 0.5)";
 				start.x=x2+intersections.length*box.w+50;
 				for( var i=index; i<intersections.length; i++)
 				{
@@ -151,7 +164,8 @@ Animation.prototype.animate_crossover = function(index, o1, o2)
 						self.ctx.restore();
 						start.x+=box.w;
 					}
-					
+					self.ctx.fillStyle="rgba(127,127,227, 0.5)";
+
 					start.x=index*box.w+intersections.length*box.w+50;
 					for( var i=index; i<intersections.length; i++)
 					{
