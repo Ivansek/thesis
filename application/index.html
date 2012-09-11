@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
+	<title>Vizualizacija optimizacije prometa z genetskimi algoritmi</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link href="normalize.css" rel="stylesheet">
 	<script src="jquery-1.8.0.min.js"></script>
@@ -70,6 +71,24 @@
 			<p>
 				Genetski algoritimi so del evolucijskega računanja, ki za iskanje rešitev povzemajo ideje od v naravi skozi evolucijo dokazano uspešnih načinov delovanja in preživetja. Z operacijami križanja, mutacije, dedovanja in izbire skozi generacije tvorijo nove, boljše <strong>osebke</strong>.
 			</p>
+			<h3>
+				Problem urejanja prometa
+			</h3>
+			<p>
+				Problem urejanja prometa je prisoten v vseh večjih mestih v vseh državah. Večanje prometa povzroča prometne zastoje, zato se vozniki in potniki srečujejo s problemi, kot so nepotrebno zapravljanje časa, stresom, onesnaževanjem, povečano nevarnostjo nesreč in ostalimi resnimi problemi. Obstajajo različni pristopi kako reševati take probleme. Ena od možnosti je uporaba obstoječih cest s pravilnim rokovanjem semaforjev.
+			</p>
+			<h4>
+				Formalizacija problema
+			</h4>
+			<p>
+				Postavimo se v vlogo voznika, ki želi priti od doma do službe čimhitreje in po najkrajši poti skozi središče mesta, kjer je veliko semaforiziranih križišč. Imamo še nekaj prijateljev, nekateri želijo priti od doma do trgovine, ki je na drugem koncu mesta, drugim pa se mudi v šolo, a vsi želijo priti na svoj cilj čimhitreje in po najkrajši poti. Potovalni čas vsakega vozila bo najkrajši takrat, ko bo najmanj časa čakal na rdečih lučeh in v koloni ter bo šel po najkrajši poti.
+			</p>
+			<p>
+				Želimo optimizirati čase rdečih in zelenih luči na semaforjih, tako da vsa vozila v obravnavanem cestnem segmentu dosežejo cilj kar najhitreje.
+			</p>
+			<h3>
+				Implementacija
+			</h3>
 			<p>
 				Problem predstavimo v taki obliki, da mu lahko določimo kvaliteto. Za optimizacijo prometa smo osebek predstavili kot zaporedje parov časov rdečih in zelenih luči na semaforjih. Enote so v sekundah:
 			</p>
@@ -86,7 +105,7 @@
 				Funkcija, ki objektivno oceni kvaliteto osebka imenujemo <strong>fitness funkcija</strong>. Za naš problem je fitness funkcija definirana kot <em>skupni čas potovanja vseh vozil od začetka do konca</em>. Čas potovanja izmerimo s simulacijo animacije. Simulacija poteka enako kot animacija, le da ničesar ne izrišemo. Manjši je čas potovanja, bolje je ocenjen osebek.
 			</p>
 			<p>
-				Nad najboljšimi osebki (<strong>elita</strong>) nato izvedemo križanje in mutacijo, saj želimo dober genetski material ohraniti. Križanje ustvari dva <strong>potomca</strong>, ki nastopata v novi populaciji.
+				Osebke za križanje izberemo z eno od metod izbire. Ponavadi izberemo dva osebka naenkrat, ki ju imenujemo <strong>starša</strong>. Križanje staršev ustvari dva <strong>potomca</strong>, ki nastopata v novi populaciji.
 			</p>
 			<p>
 				<button type="button" class="btn btn-info" id="show_crossover">Prikaži animacijo križanja</button>
@@ -106,7 +125,7 @@
 				</div>
 			</p>
 			<p>
-				Mutacija pomeni, da na naključno izbranem mestu zamenjamo genetski zapis. Brez mutacij bi križanje lahko izmenjevalo samo genetski material v začetni slučajno generirani populaciji. Mutacija doda potencialno novo informacijo. Mutacija ne sme biti prevelika, saj je potem pokvari preveč potencialno koristnih genov v osebkih.
+				Nad potomci nato izvedemo še mutacijo. Mutacija pomeni, da na naključno izbranem mestu zamenjamo genetski zapis. Brez mutacij bi križanje lahko izmenjevalo samo genetski material v začetni slučajno generirani populaciji. Mutacija doda potencialno novo informacijo. Mutacija ne sme biti prevelika, saj je potem pokvari preveč potencialno koristnih genov v osebkih.
 			</p>
 			<p>
 				Delež križanja in mutacije določimo vnaprej. V deležu mutacije in križanja smo že določili delež <strong>elitizma</strong>. Določen je z:
